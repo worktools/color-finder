@@ -9,16 +9,17 @@
             [respo-md.comp.md :refer [comp-md]]
             [app.config :refer [dev?]]
             [app.schema :refer [color-categories]]
-            ["copy-text-to-clipboard" :as copy!]))
+            [app.comp.copied :refer [comp-copied]]))
 
 (defcomp
  comp-pigment
- (color)
+ (states color)
  (div
   {:style (merge ui/center {:width 120})}
-  (div
-   {:style {:width 40, :height 40, :background-color (:value color), :cursor :pointer},
-    :on-click (fn [e d! m!] (copy! (:value color)))})
+  (comp-copied
+   states
+   (:value color)
+   (div {:style {:width 40, :height 40, :background-color (:value color)}}))
   (=< 8 nil)
   (<> (:usage color))))
 
@@ -26,9 +27,8 @@
  comp-container
  (reel)
  (let [store (:store reel), states (:states store)]
-   (println color-categories)
    (div
-    {:style (merge ui/global ui/row)}
+    {:style (merge ui/global ui/center)}
     (list->
      {}
      (->> color-categories
@@ -36,11 +36,13 @@
            (fn [idx category]
              [idx
               (div
-               {:style {:margin-bottom 32}}
+               {:style {:margin-bottom 32, :text-align :center}}
                (div {} (<> (:category category)))
                (=< nil 16)
                (list->
                 {:style ui/row}
                 (->> (:colors category)
-                     (map-indexed (fn [idx color] [idx (comp-pigment color)])))))]))))
+                     (map-indexed
+                      (fn [idx2 color]
+                        [idx2 (cursor-> (str idx "+" idx2) comp-pigment states color)])))))]))))
     (when dev? (cursor-> :reel comp-reel states reel {})))))
