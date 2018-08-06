@@ -1,14 +1,26 @@
 
 (ns app.schema )
 
+(def background-colors
+  [{:usage "Mild background", :value "#F4F8FF", :comment "Pad 操作界面背景色"}])
+
 (def border-colors
-  [{:usage "Devider color", :value "#ccc"} {:usage "Outline color", :value "#ddd"}])
+  [{:usage "Button border", :value "#BBBBBB", :comment "分割线"}
+   {:usage "Divider", :value "#dddddd", :comment "分割线"}
+   {:usage "Outline", :value "#184478", :comment "边框"}])
+
+(def features-colors
+  [{:usage "Obvious", :value "#E51C23", :comment "按钮选中高亮的颜色"}
+   {:usage "Button basic", :value "#999999", :comment "按钮使用的默认颜色"}])
 
 (def font-colors
-  [{:usage "Main fonts", :value "#000"} {:usage "Minor fonts", :value "#888"}])
+  [{:usage "Main", :value "#101010", :comment "正常文字"}
+   {:usage "Minor", :value "#666666", :comment "次要文字, 比如表单提示"}])
 
 (def color-categories
-  [{:category "Font colors", :colors font-colors}
-   {:category "Border colors", :colors border-colors}])
+  [{:category "Fonts", :colors font-colors}
+   {:category "Borders", :colors border-colors}
+   {:category "Backgrounds", :colors background-colors}
+   {:category "Features", :colors features-colors}])
 
 (def store {:states {}, :content ""})
