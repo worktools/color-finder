@@ -3,7 +3,6 @@
   (:require [hsl.core :refer [hsl]]
             [respo-ui.core :as ui]
             [respo.macros :refer [defcomp list-> cursor-> <> div button textarea span]]
-            [verbosely.core :refer [verbosely!]]
             [respo.comp.space :refer [=<]]
             [reel.comp.reel :refer [comp-reel]]
             [respo-md.comp.md :refer [comp-md]]
@@ -15,11 +14,11 @@
  comp-pigment
  (states color)
  (div
-  {:style (merge ui/center {:width 160})}
+  {:style (merge ui/row {:margin-bottom 16, :align-items :center})}
   (comp-copied
    states
    (:value color)
-   (div {:style {:width 40, :height 40, :background-color (:value color)}}))
+   (div {:style {:width 64, :height 32, :background-color (:value color)}}))
   (=< 8 nil)
   (<> (:usage color))
   (=< 8 nil)
@@ -42,13 +41,13 @@
               (div
                {:style (merge ui/row {:margin 32, :border-bottom "1px solid #eee"})}
                (div
-                {:style {:width 120}}
+                {:style {:width 200}}
                 (<>
                  (:category category)
                  {:font-family ui/font-fancy, :font-size 20, :color (hsl 0 0 60)}))
                (=< nil 16)
                (list->
-                {:style ui/row}
+                {:style ui/column}
                 (->> (:colors category)
                      (map-indexed
                       (fn [idx2 color]

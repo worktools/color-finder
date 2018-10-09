@@ -18,9 +18,9 @@
    {:usage "Minor", :value "#666666", :comment "次要文字, 比如表单提示"}])
 
 (def color-categories
-  [{:category "Fonts", :colors font-colors}
-   {:category "Borders", :colors border-colors}
-   {:category "Backgrounds", :colors background-colors}
-   {:category "Features", :colors features-colors}])
+  [{:category "Background colors", :colors background-colors}
+   {:category "Border colors", :colors border-colors}
+   {:category "Font colors", :colors font-colors}
+   {:category "Feature colors", :colors features-colors}])
 
 (def store {:states {}, :content ""})
