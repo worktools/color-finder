@@ -23,8 +23,9 @@
       (div
        {:style {:position :absolute,
                 :bottom "120%",
-                :background-color :white,
-                :border "1px solid #ddd",
+                :background-color (hsl 0 0 30),
+                :border (str "1px solid " (hsl 0 0 70 0.5)),
+                :color :white,
                 :padding "0 8px",
                 :font-size 12}}
        (<> "Copied"))))))

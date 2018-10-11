@@ -614,6 +614,13 @@
                      }
                     }
                    }
+                   "x" {
+                    :type :expr, :by "rJG4IHzWf", :at 1539247407170, :id "ew5NegtcHp"
+                    :data {
+                     "T" {:type :leaf, :by "rJG4IHzWf", :at 1539247408355, :text ":border", :id "ew5NegtcHpleaf"}
+                     "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247424116, :text "\"1px solid #eee", :id "hZCNG3j0H"}
+                    }
+                   }
                   }
                  }
                 }
@@ -624,32 +631,11 @@
            }
           }
          }
-         "p" {
-          :type :expr, :by "rJG4IHzWf", :at 1533487552964, :id "IvVKBq2421"
-          :data {
-           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487553750, :text "=<", :id "IvVKBq2421leaf"}
-           "j" {:type :leaf, :by "rJG4IHzWf", :at 1533487555339, :text "8", :id "R2TrDJqM6-"}
-           "r" {:type :leaf, :by "rJG4IHzWf", :at 1533487555858, :text "nil", :id "_sKEc11C1y"}
-          }
-         }
-         "r" {
-          :type :expr, :by "rJG4IHzWf", :at 1533487503412, :id "nxAE4f5-Ar"
-          :data {
-           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487503412, :text "<>", :id "2QmYZzT09k"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487503412, :id "5N-ojRAYoG"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487503412, :text ":usage", :id "T1vGfSS8Je"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1533487503412, :text "color", :id "9_m7LH8Asqo"}
-            }
-           }
-          }
-         }
          "v" {
           :type :expr, :by "root", :at 1533527784730, :id "1QDl6L1p5"
           :data {
            "T" {:type :leaf, :by "root", :at 1533527786071, :text "=<", :id "1QDl6L1p5leaf"}
-           "j" {:type :leaf, :by "root", :at 1533527786384, :text "8", :id "frnH_cczTL"}
+           "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247324638, :text "16", :id "frnH_cczTL"}
            "r" {:type :leaf, :by "root", :at 1533527786874, :text "nil", :id "OiRPQ45iL8"}
           }
          }
@@ -1042,14 +1028,45 @@
                       :type :expr, :by "rJG4IHzWf", :at 1533488094269, :id "urL-AkxFNM"
                       :data {
                        "T" {:type :leaf, :by "rJG4IHzWf", :at 1533488098878, :text ":background-color", :id "urL-AkxFNMleaf"}
-                       "j" {:type :leaf, :by "rJG4IHzWf", :at 1533488101837, :text ":white", :id "kgdXSD6bv"}
+                       "j" {
+                        :type :expr, :by "rJG4IHzWf", :at 1539247357549, :id "RJ5y1vZeW"
+                        :data {
+                         "T" {:type :leaf, :by "rJG4IHzWf", :at 1539247358061, :text "hsl", :id "kgdXSD6bv"}
+                         "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247358351, :text "0", :id "AwMuWvs6md"}
+                         "r" {:type :leaf, :by "rJG4IHzWf", :at 1539247358580, :text "0", :id "szARJsZo3j"}
+                         "v" {:type :leaf, :by "rJG4IHzWf", :at 1539247359319, :text "30", :id "kXD31MfAw6"}
+                        }
+                       }
                       }
                      }
                      "x" {
                       :type :expr, :by "rJG4IHzWf", :at 1533488102329, :id "rRLpdWCDg1"
                       :data {
                        "T" {:type :leaf, :by "rJG4IHzWf", :at 1533488103823, :text ":border", :id "rRLpdWCDg1leaf"}
-                       "j" {:type :leaf, :by "rJG4IHzWf", :at 1533488110479, :text "\"1px solid #ddd", :id "Yu8XVK2LzC"}
+                       "j" {
+                        :type :expr, :by "rJG4IHzWf", :at 1539247373972, :id "hth4eiDOGi"
+                        :data {
+                         "D" {:type :leaf, :by "rJG4IHzWf", :at 1539247376034, :text "str", :id "b-2EJG-9k"}
+                         "T" {:type :leaf, :by "rJG4IHzWf", :at 1539247373661, :text "\"1px solid ", :id "Yu8XVK2LzC"}
+                         "j" {
+                          :type :expr, :by "rJG4IHzWf", :at 1539247376749, :id "GKvFZTJk9C"
+                          :data {
+                           "T" {:type :leaf, :by "rJG4IHzWf", :at 1539247377161, :text "hsl", :id "bJ2EJ9dI-V"}
+                           "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247378344, :text "0", :id "HRcbs6jhZ"}
+                           "r" {:type :leaf, :by "rJG4IHzWf", :at 1539247378597, :text "0", :id "VweSXtC1ap"}
+                           "v" {:type :leaf, :by "rJG4IHzWf", :at 1539247388961, :text "70", :id "XjIJ-FeGq"}
+                           "x" {:type :leaf, :by "rJG4IHzWf", :at 1539247381811, :text "0.5", :id "Ky74C4AfHY"}
+                          }
+                         }
+                        }
+                       }
+                      }
+                     }
+                     "xT" {
+                      :type :expr, :by "rJG4IHzWf", :at 1539247341301, :id "GLKHEY-Nvd"
+                      :data {
+                       "T" {:type :leaf, :by "rJG4IHzWf", :at 1539247343520, :text ":color", :id "GLKHEY-Nvdleaf"}
+                       "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247346151, :text ":white", :id "1MRjK5dw1_"}
                       }
                      }
                      "y" {
@@ -2365,25 +2382,98 @@
           :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "5t8VzeZNfk"
           :data {
            "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487140329, :id "gkynAcHeFu"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487141492, :text ":usage", :id "zQtoHVCDdq"}
-             "j" {:type :leaf, :by "root", :at 1533527691145, :text "\"Mild background", :id "Tfgf6O6T8"}
-            }
-           }
            "r" {
             :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
-             "j" {:type :leaf, :by "root", :at 1533527701181, :text "\"#F4F8FF", :id "ZkOJl1Fy-I"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247071089, :text "\"#323232", :id "ZkOJl1Fy-I"}
             }
            }
            "v" {
             :type :expr, :by "root", :at 1533527701828, :id "Jc0Aratkfu"
             :data {
              "T" {:type :leaf, :by "root", :at 1533527707926, :text ":comment", :id "Jc0Aratkfuleaf"}
-             "j" {:type :leaf, :by "root", :at 1533527717383, :text "\"Pad 操作界面背景色", :id "no-GSUtdPW"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247077862, :text "\"主视觉配色，默认按钮背景色，侧边菜单选中背景色", :id "no-GSUtdPW"}
+            }
+           }
+          }
+         }
+         "r" {
+          :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "z6wv16KQk"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
+           "r" {
+            :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
+            :data {
+             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247126400, :text "\"#20335D", :id "ZkOJl1Fy-I"}
+            }
+           }
+           "v" {
+            :type :expr, :by "root", :at 1533527701828, :id "Jc0Aratkfu"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1533527707926, :text ":comment", :id "Jc0Aratkfuleaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247091845, :text "\"导航栏Logo背景色", :id "no-GSUtdPW"}
+            }
+           }
+          }
+         }
+         "v" {
+          :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "gMbz8KOce"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
+           "r" {
+            :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
+            :data {
+             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247102667, :text "\"#323232", :id "ZkOJl1Fy-I"}
+            }
+           }
+           "v" {
+            :type :expr, :by "root", :at 1533527701828, :id "Jc0Aratkfu"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1533527707926, :text ":comment", :id "Jc0Aratkfuleaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247113166, :text "\"左侧导航栏背景色", :id "no-GSUtdPW"}
+            }
+           }
+          }
+         }
+         "x" {
+          :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "NeZRBl0ghs"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
+           "r" {
+            :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
+            :data {
+             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247132565, :text "\"#0E1524", :id "ZkOJl1Fy-I"}
+            }
+           }
+           "v" {
+            :type :expr, :by "root", :at 1533527701828, :id "Jc0Aratkfu"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1533527707926, :text ":comment", :id "Jc0Aratkfuleaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247138057, :text "\"导航栏选中分类区域背景色", :id "no-GSUtdPW"}
+            }
+           }
+          }
+         }
+         "y" {
+          :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "zQbj6jUDTX"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
+           "r" {
+            :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
+            :data {
+             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247148075, :text "\"#DAEDFF", :id "ZkOJl1Fy-I"}
+            }
+           }
+           "v" {
+            :type :expr, :by "root", :at 1533527701828, :id "Jc0Aratkfu"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1533527707926, :text ":comment", :id "Jc0Aratkfuleaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247155509, :text "\"概览页面图形填充色", :id "no-GSUtdPW"}
             }
            }
           }
@@ -2405,25 +2495,18 @@
           :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "5t8VzeZNfk"
           :data {
            "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487140329, :id "gkynAcHeFu"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487141492, :text ":usage", :id "zQtoHVCDdq"}
-             "j" {:type :leaf, :by "root", :at 1533528276321, :text "\"Button border", :id "Tfgf6O6T8"}
-            }
-           }
            "r" {
             :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
-             "j" {:type :leaf, :by "root", :at 1533528279165, :text "\"#BBBBBB", :id "ZkOJl1Fy-I"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247168941, :text "\"#D9D9D9", :id "ZkOJl1Fy-I"}
             }
            }
            "v" {
             :type :expr, :by "root", :at 1533528080952, :id "ViqUF6qBEJ"
             :data {
              "T" {:type :leaf, :by "root", :at 1533528082932, :text ":comment", :id "ViqUF6qBEJleaf"}
-             "j" {:type :leaf, :by "root", :at 1533528085923, :text "\"分割线", :id "OWJ14tcORU"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247177142, :text "\"选择框边框颜色", :id "OWJ14tcORU"}
             }
            }
           }
@@ -2432,52 +2515,18 @@
           :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "0CLIT7uo3"
           :data {
            "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487140329, :id "gkynAcHeFu"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487141492, :text ":usage", :id "zQtoHVCDdq"}
-             "j" {:type :leaf, :by "root", :at 1533528076902, :text "\"Divider", :id "Tfgf6O6T8"}
-            }
-           }
            "r" {
             :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
-             "j" {:type :leaf, :by "root", :at 1533528311483, :text "\"#dddddd", :id "ZkOJl1Fy-I"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247186254, :text "\"#E8E8E8", :id "ZkOJl1Fy-I"}
             }
            }
            "v" {
             :type :expr, :by "root", :at 1533528080952, :id "ViqUF6qBEJ"
             :data {
              "T" {:type :leaf, :by "root", :at 1533528082932, :text ":comment", :id "ViqUF6qBEJleaf"}
-             "j" {:type :leaf, :by "root", :at 1533528309673, :text "\"分割线", :id "OWJ14tcORU"}
-            }
-           }
-          }
-         }
-         "r" {
-          :type :expr, :by "rJG4IHzWf", :at 1533487157124, :id "ojEKudG02K"
-          :data {
-           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487157597, :text "{}", :id "ojEKudG02Kleaf"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487157996, :id "Enf21jLLw0"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487158928, :text ":usage", :id "M36q69hACm"}
-             "j" {:type :leaf, :by "root", :at 1533528125602, :text "\"Outline", :id "j6fYjGOiPy"}
-            }
-           }
-           "r" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487165242, :id "UOyoGAspm-"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487326252, :text ":value", :id "6FTZQ50BzZ"}
-             "j" {:type :leaf, :by "root", :at 1533528130119, :text "\"#184478", :id "BDj_zBGBAi"}
-            }
-           }
-           "v" {
-            :type :expr, :by "root", :at 1533528118732, :id "Qi61GTMPb"
-            :data {
-             "T" {:type :leaf, :by "root", :at 1533528122389, :text ":comment", :id "Qi61GTMPbleaf"}
-             "j" {:type :leaf, :by "root", :at 1533528133224, :text "\"边框", :id "avJavpy6Em"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247193664, :text "\"分割线", :id "OWJ14tcORU"}
             }
            }
           }
@@ -2555,93 +2604,6 @@
            }
           }
          }
-         "v" {
-          :type :expr, :by "rJG4IHzWf", :at 1533487102372, :id "PntHacg_V"
-          :data {
-           "D" {:type :leaf, :by "rJG4IHzWf", :at 1533487103245, :text "{}", :id "s5t6qllDI"}
-           "L" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487020737, :id "XK4Sk_pyrB"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487027557, :text ":category", :id "8vavURm2gG"}
-             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539060094490, :text "\"Feature colors", :id "mMYmhM1uK4"}
-            }
-           }
-           "T" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487122367, :id "zOn5r_Gyq8"
-            :data {
-             "D" {:type :leaf, :by "rJG4IHzWf", :at 1533487431649, :text ":colors", :id "UDjg0HBrU"}
-             "T" {:type :leaf, :by "root", :at 1533528178943, :text "features-colors", :id "EGJnZtUpMm"}
-            }
-           }
-          }
-         }
-        }
-       }
-      }
-     }
-     "features-colors" {
-      :type :expr, :by "root", :at 1533528179846, :id "EdrSt2TF-N"
-      :data {
-       "T" {:type :leaf, :by "root", :at 1533528180474, :text "def", :id "kfKjn1I2BT"}
-       "j" {:type :leaf, :by "root", :at 1533528179846, :text "features-colors", :id "EtzNuPTh5I"}
-       "r" {
-        :type :expr, :by "root", :at 1533528179846, :id "g5uyk-n9Me"
-        :data {
-         "T" {:type :leaf, :by "root", :at 1533528182467, :text "[]", :id "pUq2_CqgNl"}
-         "j" {
-          :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "9Jr2YZYwPV"
-          :data {
-           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487140329, :id "gkynAcHeFu"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487141492, :text ":usage", :id "zQtoHVCDdq"}
-             "j" {:type :leaf, :by "root", :at 1533528233831, :text "\"Obvious", :id "Tfgf6O6T8"}
-            }
-           }
-           "r" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
-             "j" {:type :leaf, :by "root", :at 1533528237808, :text "\"#E51C23", :id "ZkOJl1Fy-I"}
-            }
-           }
-           "v" {
-            :type :expr, :by "root", :at 1533528080952, :id "ViqUF6qBEJ"
-            :data {
-             "T" {:type :leaf, :by "root", :at 1533528082932, :text ":comment", :id "ViqUF6qBEJleaf"}
-             "j" {:type :leaf, :by "root", :at 1533528254182, :text "\"按钮选中高亮的颜色", :id "OWJ14tcORU"}
-            }
-           }
-          }
-         }
-         "r" {
-          :type :expr, :by "rJG4IHzWf", :at 1533487139515, :id "_v5SJ93CL"
-          :data {
-           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487139960, :text "{}", :id "afV5kPNspx"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487140329, :id "gkynAcHeFu"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487141492, :text ":usage", :id "zQtoHVCDdq"}
-             "j" {:type :leaf, :by "root", :at 1533528383440, :text "\"Button basic", :id "Tfgf6O6T8"}
-            }
-           }
-           "r" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487150639, :id "X5rmoL2N3"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487322376, :text ":value", :id "X5rmoL2N3leaf"}
-             "j" {:type :leaf, :by "root", :at 1533528386981, :text "\"#999999", :id "ZkOJl1Fy-I"}
-            }
-           }
-           "v" {
-            :type :expr, :by "root", :at 1533528080952, :id "ViqUF6qBEJ"
-            :data {
-             "T" {:type :leaf, :by "root", :at 1533528082932, :text ":comment", :id "ViqUF6qBEJleaf"}
-             "j" {:type :leaf, :by "root", :at 1533528396996, :text "\"按钮使用的默认颜色", :id "OWJ14tcORU"}
-            }
-           }
-          }
-         }
         }
        }
       }
@@ -2659,25 +2621,18 @@
           :type :expr, :by "rJG4IHzWf", :at 1533487034902, :id "UPs2MRsOuO"
           :data {
            "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487035252, :text "{}", :id "-M4--UXaZ"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487036893, :id "T8iERzwFZc"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487041335, :text ":usage", :id "c5hrRki_Q"}
-             "j" {:type :leaf, :by "root", :at 1533527974768, :text "\"Main", :id "nwsbaey7y"}
-            }
-           }
            "r" {
             :type :expr, :by "rJG4IHzWf", :at 1533487042869, :id "qXaaCN3p70"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487436566, :text ":value", :id "qXaaCN3p70leaf"}
-             "j" {:type :leaf, :by "root", :at 1533527978281, :text "\"#101010", :id "AqWK6mB7E2"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247212952, :text "\"#2C85DD", :id "AqWK6mB7E2"}
             }
            }
            "v" {
             :type :expr, :by "root", :at 1533528009131, :id "0Oe2Ruc9oh"
             :data {
              "T" {:type :leaf, :by "root", :at 1533528014437, :text ":comment", :id "0Oe2Ruc9ohleaf"}
-             "j" {:type :leaf, :by "root", :at 1533528019261, :text "\"正常文字", :id "WQEeRK0X7"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247220820, :text "\"选中文字颜色", :id "WQEeRK0X7"}
             }
            }
           }
@@ -2686,25 +2641,98 @@
           :type :expr, :by "rJG4IHzWf", :at 1533487056011, :id "JuBqEjOY7"
           :data {
            "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487057440, :text "{}", :id "JuBqEjOY7leaf"}
-           "j" {
-            :type :expr, :by "rJG4IHzWf", :at 1533487057719, :id "gvEjDf0BWg"
-            :data {
-             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487058966, :text ":usage", :id "l9MHGXG01"}
-             "j" {:type :leaf, :by "root", :at 1533527989590, :text "\"Minor", :id "BayQ76mTa"}
-            }
-           }
            "r" {
             :type :expr, :by "rJG4IHzWf", :at 1533487068823, :id "9yA5075Yp-"
             :data {
              "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487438022, :text ":value", :id "9yA5075Yp-leaf"}
-             "j" {:type :leaf, :by "root", :at 1533528001815, :text "\"#666666", :id "WGLrkHNXRl"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247226695, :text "\"#323232", :id "WGLrkHNXRl"}
             }
            }
            "v" {
             :type :expr, :by "root", :at 1533528021091, :id "Xrwj-fx03b"
             :data {
              "T" {:type :leaf, :by "root", :at 1533528025647, :text ":comment", :id "Xrwj-fx03bleaf"}
-             "j" {:type :leaf, :by "root", :at 1533528040696, :text "\"次要文字, 比如表单提示", :id "7L1rtBCcWs"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247233308, :text "\"主要文字", :id "7L1rtBCcWs"}
+            }
+           }
+          }
+         }
+         "v" {
+          :type :expr, :by "rJG4IHzWf", :at 1533487056011, :id "A0k-3D26F"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487057440, :text "{}", :id "JuBqEjOY7leaf"}
+           "r" {
+            :type :expr, :by "rJG4IHzWf", :at 1533487068823, :id "9yA5075Yp-"
+            :data {
+             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487438022, :text ":value", :id "9yA5075Yp-leaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247240174, :text "\"#6F6F6F", :id "WGLrkHNXRl"}
+            }
+           }
+           "v" {
+            :type :expr, :by "root", :at 1533528021091, :id "Xrwj-fx03b"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1533528025647, :text ":comment", :id "Xrwj-fx03bleaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247247661, :text "\"次要提示性文字", :id "7L1rtBCcWs"}
+            }
+           }
+          }
+         }
+         "x" {
+          :type :expr, :by "rJG4IHzWf", :at 1533487056011, :id "TnR1fEe1Ev"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487057440, :text "{}", :id "JuBqEjOY7leaf"}
+           "r" {
+            :type :expr, :by "rJG4IHzWf", :at 1533487068823, :id "9yA5075Yp-"
+            :data {
+             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487438022, :text ":value", :id "9yA5075Yp-leaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247254337, :text "\"#979797", :id "WGLrkHNXRl"}
+            }
+           }
+           "v" {
+            :type :expr, :by "root", :at 1533528021091, :id "Xrwj-fx03b"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1533528025647, :text ":comment", :id "Xrwj-fx03bleaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247274046, :text "\"面包屑导航", :id "7L1rtBCcWs"}
+            }
+           }
+          }
+         }
+         "y" {
+          :type :expr, :by "rJG4IHzWf", :at 1533487056011, :id "VYjELBzhuW"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487057440, :text "{}", :id "JuBqEjOY7leaf"}
+           "r" {
+            :type :expr, :by "rJG4IHzWf", :at 1533487068823, :id "9yA5075Yp-"
+            :data {
+             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487438022, :text ":value", :id "9yA5075Yp-leaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247282584, :text "\"#BDBDBD", :id "WGLrkHNXRl"}
+            }
+           }
+           "v" {
+            :type :expr, :by "root", :at 1533528021091, :id "Xrwj-fx03b"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1533528025647, :text ":comment", :id "Xrwj-fx03bleaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247289376, :text "\"输入框提示文字", :id "7L1rtBCcWs"}
+            }
+           }
+          }
+         }
+         "yT" {
+          :type :expr, :by "rJG4IHzWf", :at 1533487056011, :id "w7z16MV-Pu"
+          :data {
+           "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487057440, :text "{}", :id "JuBqEjOY7leaf"}
+           "r" {
+            :type :expr, :by "rJG4IHzWf", :at 1533487068823, :id "9yA5075Yp-"
+            :data {
+             "T" {:type :leaf, :by "rJG4IHzWf", :at 1533487438022, :text ":value", :id "9yA5075Yp-leaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247301231, :text "\"#ffffff", :id "WGLrkHNXRl"}
+            }
+           }
+           "v" {
+            :type :expr, :by "root", :at 1533528021091, :id "Xrwj-fx03b"
+            :data {
+             "T" {:type :leaf, :by "root", :at 1533528025647, :text ":comment", :id "Xrwj-fx03bleaf"}
+             "j" {:type :leaf, :by "rJG4IHzWf", :at 1539247306956, :text "\"左侧导航栏区域选中文字颜色", :id "7L1rtBCcWs"}
             }
            }
           }

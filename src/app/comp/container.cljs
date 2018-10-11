@@ -18,10 +18,12 @@
   (comp-copied
    states
    (:value color)
-   (div {:style {:width 64, :height 32, :background-color (:value color)}}))
-  (=< 8 nil)
-  (<> (:usage color))
-  (=< 8 nil)
+   (div
+    {:style {:width 64,
+             :height 32,
+             :background-color (:value color),
+             :border "1px solid #eee"}}))
+  (=< 16 nil)
   (<>
    (:comment color)
    {:color (hsl 0 0 70), :white-space :nowrap, :text-overflow :ellipsis, :overflow :hidden})))
