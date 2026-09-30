@@ -6,9 +6,27 @@ Color Finder
 
 Site http://chenyong.tiye.me/color-finder/
 
-### Workflow
+### Development
 
-Workflow https://github.com/mvc-works/calcit-workflow
+Requires Calcit 0.27.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
+
+```sh
+caps --strict --ci
+yarn install --immutable
+calcit calcit.cirru --check-only
+calcit calcit.cirru test --tag unit --require-match
+yarn build
+```
+
+### Deployment
+
+The GitHub workflow uploads only the built frontend files from `dist/` to COS,
+using `worktools/color-finder/` for production assets and
+`worktools/color-finder/pr/` for pull-request previews. Vite embeds the matching
+CDN base URL in the generated HTML. Production pushes also retain the existing
+rsync deployment of `dist/*` to
+`rsync-user@tiye.me:/web-assets/repo/worktools/color-finder`; the server-side
+deployment path is unchanged.
 
 ### License
 

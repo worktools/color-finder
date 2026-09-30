@@ -1,22 +1,25 @@
 {
-  "name": "calcit-workflow",
+  "name": "color-finder",
   "version": "0.1.0",
-  "description": "ClojureScript workflow using Calcit Editor",
+  "description": "Browse and copy colors",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "compile": "calcit calcit.cirru js",
+    "build": "yarn compile && vite build",
+    "dev": "vite"
+  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:mvc-works/calcit-workflow.git"
+    "url": "git@github.com:worktools/color-finder.git"
   },
   "author": "jiyinyiyong",
   "license": "MIT",
   "devDependencies": {
     "bottom-tip": "^0.1.5",
-    "vite": "^4.3.9"
+    "vite": "8.3.1"
   },
   "dependencies": {
-    "@calcit/procs": "^0.7.0",
-    "copy-text-to-clipboard": "^3.1.0",
-    "shortid": "^2.2.16"
-  }
+    "@calcit/procs": "0.27.0"
+  },
+  "packageManager": "yarn@4.18.0"
 }
