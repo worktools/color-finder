@@ -35,6 +35,9 @@ deployment path is unchanged.
 every generated JS/CSS URL and its local artifact before deployment. Builds run
 independently, while only upload jobs queue for the shared COS prefix and reuse
 the tested dist artifact (retained for 90 days).
+Before uploading, the deployment job checks that its commit is still the branch
+HEAD. Superseded builds skip both COS and rsync rather than rolling back newer
+frontend assets.
 
 ### License
 
