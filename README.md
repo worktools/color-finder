@@ -31,6 +31,11 @@ rsync deployment of `dist/*` to
 `rsync-user@tiye.me:/web-assets/repo/worktools/color-finder`; the server-side
 deployment path is unchanged.
 
+`yarn build` reads `VITE_BASE_URL`; without it, URLs remain relative. CI checks
+every generated JS/CSS URL and its local artifact before deployment. Builds run
+independently, while only upload jobs queue for the shared COS prefix and reuse
+the tested dist artifact (retained for 90 days).
+
 ### License
 
 MIT
