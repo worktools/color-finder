@@ -31,8 +31,9 @@ rsync deployment of `dist/*` to
 `rsync-user@tiye.me:/web-assets/repo/worktools/color-finder`; the server-side
 deployment path is unchanged.
 
-`yarn build` reads `VITE_BASE_URL`; without it, URLs remain relative. CI checks
-every generated JS/CSS URL and its local artifact before deployment. Builds run
+`yarn build` reads `VITE_BASE_URL`; without it, URLs remain relative. The COS
+Action verifies every uploaded file through `public-base-url`, using its built-in
+`verify-*` settings; no project-local verification script is needed. Builds run
 independently, while only upload jobs queue for the shared COS prefix and reuse
 the tested dist artifact (retained for 90 days).
 Before uploading, the deployment job checks that its commit is still the branch
