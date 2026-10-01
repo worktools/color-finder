@@ -10,6 +10,9 @@ Site http://chenyong.tiye.me/color-finder/
 
 Requires Calcit 0.27.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
 
+Use only `calcit.cirru` and `deps.cirru`. The retired `compact.cirru` and
+`package.cirru` snapshots must not be restored; CI checks their absence.
+
 ```sh
 caps --strict --ci
 yarn install --immutable
@@ -27,6 +30,15 @@ CDN base URL in the generated HTML. Production pushes also retain the existing
 rsync deployment of `dist/*` to
 `rsync-user@tiye.me:/web-assets/repo/worktools/color-finder`; the server-side
 deployment path is unchanged.
+
+`yarn build` reads `VITE_BASE_URL`; without it, URLs remain relative. The COS
+Action verifies every uploaded file through `public-base-url`, using its built-in
+`verify-*` settings; no project-local verification script is needed. Builds run
+independently, while only upload jobs queue for the shared COS prefix and reuse
+the tested dist artifact (retained for 90 days).
+Before uploading, the deployment job checks that its commit is still the branch
+HEAD. Superseded builds skip both COS and rsync rather than rolling back newer
+frontend assets.
 
 ### License
 
