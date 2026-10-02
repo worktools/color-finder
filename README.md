@@ -21,6 +21,9 @@ calcit calcit.cirru test --tag unit --require-match
 yarn build
 ```
 
+`yarn dev` compiles the initial JavaScript before starting Vite. Run `yarn watch`
+in another terminal when editing Calcit; no process-management dependency is needed.
+
 ### Deployment
 
 The GitHub workflow uploads only the built frontend files from `dist/` to COS,
@@ -32,7 +35,7 @@ rsync deployment of `dist/*` to
 deployment path is unchanged.
 
 `yarn build` reads `VITE_BASE_URL`; without it, URLs remain relative. The COS
-Action verifies every uploaded file through `public-base-url`, using its built-in
+Action v1.2.0 verifies every uploaded file through `public-base-url`, using its built-in
 `verify-*` settings; no project-local verification script is needed. Builds run
 independently, while only upload jobs queue for the shared COS prefix and reuse
 the tested dist artifact (retained for 90 days).

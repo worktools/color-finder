@@ -4,9 +4,10 @@
   "description": "Browse and copy colors",
   "main": "index.js",
   "scripts": {
-    "compile": "calcit calcit.cirru js",
+    "compile": "calcit",
+    "watch": "calcit -w",
     "build": "yarn compile && vite build",
-    "dev": "vite"
+    "dev": "yarn compile && vite"
   },
   "repository": {
     "type": "git",
