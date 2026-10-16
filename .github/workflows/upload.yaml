@@ -38,6 +38,7 @@ jobs:
       with:
         tools: calcit,caps
         caps-version: "0.1.1"
+        deps-file: deps.cirru
 
     - name: Resolve immutable dependencies
       run: |
@@ -55,8 +56,8 @@ jobs:
         test ! -e package.cirru
         calcit calcit.cirru edit format
         git diff --exit-code -- calcit.cirru
-        calcit calcit.cirru --check-only
-        calcit analyze check-public --ns app.comp.container --ns app.comp.copied --ns app.config --ns app.main --ns app.schema --ns app.snippet --ns app.updater --ns app.util --summary-only
+        calcit --check-only --all-defs
+        calcit fix --workflow strict --verify
         calcit calcit.cirru test --tag unit --require-match
 
     - name: Select frontend CDN path
