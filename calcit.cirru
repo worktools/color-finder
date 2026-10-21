@@ -170,18 +170,9 @@
             :args $ [] 'Enum
             :features $ #{} :js-ffi
         'main! $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn main! () (render-app!)
-            add-watch! *reel :changes $ fn (r p) (render-app!)
-            listen-devtools! |k dispatch!
-            browser/set-before-unload! $ fn (e)
-              browser/storage-set!
-                  get config/site :storage
-                  , .unwrap
-                format-cirru-edn $ :store @*reel
+          :code $ quote $ defn main! ()
             match
-              browser/storage-get $
-                get config/site :storage
-                , .unwrap
+              browser/storage-get $ .unwrap $ get config/site :storage
               (:some raw)
                 match (try-parse-cirru-edn raw)
                   (:ok data)
@@ -190,11 +181,19 @@
                         (:some states)
                           if (map? states)
                             dispatch! $ :: :hydrate-storage data
-                            , nil
-                        (:none) nil
-                      , nil
-                  (:err _) nil
-              (:none) nil
+                            raise |Invalid-stored-states
+                        (:none) (raise |Missing-stored-states)
+                      raise |Invalid-stored-map
+                  (:err _) (raise |Cannot-parse-color-finder-storage)
+              (:none) &unit
+            render-app!
+            add-watch! *reel :changes $ fn (r p) (render-app!)
+            listen-devtools! |k dispatch!
+            browser/set-before-unload! $ fn (e)
+              browser/storage-set!
+                  get config/site :storage
+                  , .unwrap
+                format-cirru-edn $ :store @*reel
             println "|App started."
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'Unit)
