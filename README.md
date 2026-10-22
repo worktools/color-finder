@@ -6,9 +6,20 @@ Color Finder
 
 Site http://chenyong.tiye.me/color-finder/
 
+### 0.30.1 使用者影响
+
+当前配对精确正式 Calcit / `@calcit/procs` 0.30.1、Reel 0.6.41、UI 0.8.0、
+Respo 0.16.124、js-ffi 0.2.5，传递 Router 0.8.37。升级后重启开发服务并完整刷新。
+合法存档仍保留原 Map 和未知字段，不迁移或清空；颜色、复制提示、存储 key 和部署路径不变。
+
+恢复逻辑先于首次渲染及保存回调执行。存档解析失败、根非 Map、缺少 `:states` 或
+`:states` 非 Map 时，现在明确报错并中断启动，不再静默忽略后用初始状态覆盖原值。
+遇到错误应先备份并修复原存档，不要清空浏览器数据；背景见 [#19](https://github.com/worktools/color-finder/issues/19)。
+本轮保留原测试和门禁，不增加重复验证脚本、质量预算或强转。
+
 ### Development
 
-Requires paired Calcit / @calcit/procs 0.30.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
+Requires paired Calcit / @calcit/procs 0.30.1, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
 
 Use only `calcit.cirru` and `deps.cirru`. The retired `compact.cirru` and
 `package.cirru` snapshots must not be restored; CI checks their absence.
@@ -49,7 +60,7 @@ frontend assets.
 
 ### Calcit migration
 
-使用者影响：工具链配对正式 0.30.0；依赖统一为正式 Reel 0.6.38、UI 0.7.40、
+此前 0.30.0 迁移：工具链配对正式 0.30.0；依赖统一为正式 Reel 0.6.38、UI 0.7.40、
 Respo 0.16.120、JS-FFI 0.2.3，传递 Router 0.8.35。颜色值、文案、两秒提示、
 存储 key 和 Map 数据格式不变；原 CDN/COS/rsync 路径及上传队列也不变。
 旧快照和生成 JS 不进入仓库，没有新增过程管理器或上传验证脚本。
@@ -63,7 +74,7 @@ Op 构造写法，保留名称、unit 标签与原断言；没有新增防御测
 本地 0.27.0 原入口/原3项单测/JS 基线通过。0.30.0 候选全部201定义、完整
 strict/preflight、原3项单测、JS/Vite 构建通过；复制提示、自动清理和刷新恢复
 进行了实际浏览器回归。不读取原剪贴板或声称系统剪贴板字节验证，不宣称覆盖
-全部 Reel 控制、HMR 或已完成 0.30.1 runtime 验收。
+全部 Reel 控制或 HMR；上述是历史验收，本轮正式 0.30.1 的结果以迁移 PR 为准。
 
 刷新会保留原存储中的 `:visible? true`，但旧页面定时器不会一起恢复，可能令
 Copied 提示持续显示；本轮保留这一已有存储行为，另行记录体验问题。
