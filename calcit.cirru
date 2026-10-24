@@ -15,19 +15,19 @@
             let
                 store $ :store reel
                 states $ decode-map-as
-                  option:unwrap $ get store :states
+                  .unwrap $ get store :states
                   :: 'Map 'Dynamic 'Dynamic
               div
-                {} $ :style $ merge ui/global
+                {} $ :style ui/global
                 list-> ({})
                   -> color-categories $ map-indexed $ fn (idx category)
                     [] idx $ div
-                      {} $ :style $ merge ui/row
-                        {} (:margin 32) (:border-bottom "|1px solid #eee")
+                      {} $ :style $ .merge ui/row
+                        {} (:margin |32px) (:border-bottom "|1px solid #eee")
                       div
-                        {} $ :style $ {} (:width 200)
+                        {} $ :style $ {} (:width |200px)
                         <> (:category category)
-                          {} (:font-family ui/font-fancy) (:font-size 20)
+                          {} (:font-family ui/font-fancy) (:font-size |20px)
                             :color $ hsl 0 0 60
                       =< nil 16
                       list->
@@ -45,20 +45,20 @@
         'comp-pigment $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-pigment (states color)
             div
-              {} $ :style $ merge ui/row
-                {} (:margin-bottom 16) (:align-items :center)
+              {} $ :style $ .merge ui/row
+                {} (:margin-bottom |16px) (:align-items |center)
               comp-copied states (:value color)
                 div $ {} $ :style
-                  {} (:width 64) (:height 32)
+                  {} (:width |64px) (:height |32px)
                     :background-color $ :value color
                     :border "|1px solid #eee"
               =< 16 nil
               <> (:comment color)
                 {}
                   :color $ hsl 0 0 70
-                  :white-space :nowrap
-                  :text-overflow :ellipsis
-                  :overflow :hidden
+                  :white-space |nowrap
+                  :text-overflow |ellipsis
+                  :overflow |hidden
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] (:: 'Map 'Dynamic 'Dynamic) 'app.schema/Color
@@ -80,12 +80,12 @@
           :code $ quote $ defcomp comp-copied (states value child)
             let
                 cursor $ let
-                    raw $ option:unwrap-or (get states :cursor) nil
+                    raw $ .unwrap-or (get states :cursor) nil
                   if (non-nil? raw)
                     decode-map-as raw $ :: 'List 'Dynamic
                     , []
                 visible? $ let
-                    data $ option:unwrap-or (get states :data) nil
+                    data $ .unwrap-or (get states :data) nil
                   if (non-nil? data)
                     match
                       get
@@ -97,14 +97,12 @@
                     , false
               div
                 {}
-                  :style $ {} (:position :relative) (:cursor :pointer)
+                  :style $ {} (:position |relative) (:cursor |pointer)
                   :on-click $ fn (e d!)
                     hint-fn $ {}
                       :args $ [] (:: 'Map 'Tag 'Dynamic)
-                        :: 'Fn $ {}
-                          :args $ [] 'Enum
-                          :return 'Unit
-                          :features $ #{} :js-ffi
+                        :: 'Fn $ {} (:rest 'Dynamic) (:return 'Unit)
+                          :args $ [] 'Dynamic
                       :return 'Unit
                       :features $ #{} :js-ffi
                     browser/clipboard-write-text! value
@@ -115,12 +113,12 @@
                       , 2000
                     , &unit
                 , child $ when visible? $ div
-                  {} $ :style $ {} (:position :absolute) (:bottom |120%)
+                  {} $ :style $ {} (:position |absolute) (:bottom |120%)
                     :background-color $ hsl 0 0 30
                     :border $ str "|1px solid " $ hsl 0 0 70 (Option :some 0.5)
-                    :color :white
+                    :color |white
                     :padding "|0 8px"
-                    :font-size 12
+                    :font-size |12px
                   <> |Copied
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
@@ -137,16 +135,19 @@
         'bundle-builds $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def bundle-builds (#{} |release |local-bundle)
           :examples $ []
+          :schema $ :: 'Set 'String
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def dev?
             = |dev $
               get-env |mode
               , .unwrap-or |prod
           :examples $ []
+          :schema $ :: 'Bool
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
             {} (:storage |color-finder) (:dev-ui |http://localhost:8100/main.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main.css) (:cdn-url |http://cdn.tiye.me/color-finder/) (:cdn-folder |tiye.me:cdn/color-finder) (:title "|Color Finder") (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:upload-folder |tiye.me:repo/chenyong/color-finder/)
           :examples $ []
+          :schema $ :: 'Map 'Tag 'String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.config
           :require $ app.util :refer $ get-env!
@@ -201,7 +202,7 @@
             :features $ #{} :js-ffi
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
-            option:unwrap $ query-selector |.app
+            .unwrap $ query-selector |.app
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.dom/DomElement)
             :args $ []
@@ -265,18 +266,22 @@
           :code $ quote $ def background-colors
             [] (Color :value |#323232 :comment "|主视觉配色，默认按钮背景色，侧边菜单选中背景色") (Color :value |#20335D :comment "|导航栏Logo背景色") (Color :value |#323232 :comment "|左侧导航栏背景色") (Color :value |#0E1524 :comment "|导航栏选中分类区域背景色") (Color :value |#DAEDFF :comment "|概览页面图形填充色")
           :examples $ []
+          :schema $ :: 'List 'app.schema/Color
         'border-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def border-colors
             [] (Color :value |#D9D9D9 :comment "|选择框边框颜色") (Color :value |#E8E8E8 :comment "|分割线")
           :examples $ []
+          :schema $ :: 'List 'app.schema/Color
         'color-categories $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def color-categories
             [] (Category :category "|Background colors" :colors background-colors) (Category :category "|Border colors" :colors border-colors) (Category :category "|Font colors" :colors font-colors)
           :examples $ []
+          :schema $ :: 'List 'app.schema/Category
         'font-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def font-colors
             [] (Color :value |#2C85DD :comment "|选中文字颜色") (Color :value |#323232 :comment "|主要文字") (Color :value |#6F6F6F :comment "|次要提示性文字") (Color :value |#979797 :comment "|面包屑导航") (Color :value |#BDBDBD :comment "|输入框提示文字") (Color :value |#ffffff :comment "|左侧导航栏区域选中文字颜色")
           :examples $ []
+          :schema $ :: 'List 'app.schema/Color
         'require-op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn require-op (op)
             match op
@@ -332,7 +337,7 @@
                 assoc store :states $ decode-map-as
                   update-state-tree
                     decode-map-as
-                      option:unwrap $ get store :states
+                      .unwrap $ get store :states
                       :: 'Map 'Dynamic 'Dynamic
                     , cursor state
                   :: 'Map 'Dynamic 'Dynamic
