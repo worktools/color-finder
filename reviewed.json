@@ -1,0 +1,2807 @@
+{
+  "config": {
+    "schema_version": 1,
+    "command": "config.show",
+    "data": {
+      "package": "app",
+      "version": "0.1.0",
+      "selected_entry": null,
+      "entries": [
+        {
+          "name": "default",
+          "mode": "js",
+          "target": "browser",
+          "init_fn": "app.main/main!",
+          "reload_fn": "app.main/reload!",
+          "description": "",
+          "modules": [
+            "respo.calcit/",
+            "respo-ui.calcit/",
+            "reel.calcit/",
+            "js-ffi/"
+          ],
+          "type_slots": {},
+          "feature_policy": {}
+        }
+      ],
+      "verification_schema_version": 1,
+      "verification_profiles": []
+    },
+    "diagnostics": [],
+    "revision": "md5:44eee82bb42c9c81481b09fe1a1bc2c6"
+  },
+  "ns": {
+    "command": "query.ns",
+    "data": {
+      "count": 9,
+      "include_dependencies": false,
+      "namespaces": [
+        "app.$meta",
+        "app.comp.container",
+        "app.comp.copied",
+        "app.config",
+        "app.main",
+        "app.schema",
+        "app.snippet",
+        "app.updater",
+        "app.util"
+      ]
+    },
+    "schema_version": 1
+  },
+  "namespaces": [
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "app.$meta",
+        "ns_code": [
+          "ns",
+          "app.$meta"
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 2,
+        "doc": "",
+        "namespace": "app.comp.container",
+        "ns_code": [
+          "ns",
+          "app.comp.container",
+          [
+            ":require",
+            [
+              "respo-ui.core",
+              ":refer",
+              [
+                "hsl"
+              ]
+            ],
+            [
+              "respo-ui.core",
+              ":as",
+              "ui"
+            ],
+            [
+              "respo.core",
+              ":refer",
+              [
+                "defcomp",
+                "list->",
+                ">>",
+                "<>",
+                "div",
+                "button",
+                "textarea",
+                "span"
+              ]
+            ],
+            [
+              "respo.comp.space",
+              ":refer",
+              [
+                "=<"
+              ]
+            ],
+            [
+              "reel.comp.reel",
+              ":refer",
+              [
+                "comp-typed-reel"
+              ]
+            ],
+            [
+              "app.config",
+              ":refer",
+              [
+                "dev?"
+              ]
+            ],
+            [
+              "app.schema",
+              ":refer",
+              [
+                "color-categories"
+              ]
+            ],
+            [
+              "app.comp.copied",
+              ":refer",
+              [
+                "comp-copied"
+              ]
+            ]
+          ]
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 1,
+        "doc": "",
+        "namespace": "app.comp.copied",
+        "ns_code": [
+          "ns",
+          "app.comp.copied",
+          [
+            ":require",
+            [
+              "respo-ui.core",
+              ":refer",
+              [
+                "hsl"
+              ]
+            ],
+            [
+              "respo.core",
+              ":refer",
+              [
+                "defcomp",
+                "div",
+                "<>"
+              ]
+            ],
+            [
+              "js-ffi.browser",
+              ":as",
+              "browser"
+            ]
+          ]
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 3,
+        "doc": "",
+        "namespace": "app.config",
+        "ns_code": [
+          "ns",
+          "app.config",
+          [
+            ":require",
+            [
+              "app.util",
+              ":refer",
+              [
+                "get-env!"
+              ]
+            ]
+          ]
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 6,
+        "doc": "",
+        "namespace": "app.main",
+        "ns_code": [
+          "ns",
+          "app.main",
+          [
+            ":require",
+            [
+              "respo.core",
+              ":refer",
+              [
+                "render!",
+                "clear-cache!",
+                "realize-ssr!"
+              ]
+            ],
+            [
+              "app.comp.container",
+              ":refer",
+              [
+                "comp-container"
+              ]
+            ],
+            [
+              "app.updater",
+              ":refer",
+              [
+                "updater"
+              ]
+            ],
+            [
+              "app.schema",
+              ":as",
+              "schema"
+            ],
+            [
+              "reel.util",
+              ":refer",
+              [
+                "listen-devtools!"
+              ]
+            ],
+            [
+              "app.config",
+              ":as",
+              "config"
+            ],
+            [
+              "|./calcit.build-errors",
+              ":default",
+              "build-errors"
+            ],
+            [
+              "|bottom-tip",
+              ":default",
+              "hud!"
+            ],
+            [
+              "js-ffi.browser",
+              ":as",
+              "browser"
+            ],
+            [
+              "reel.typed",
+              ":as",
+              "typed"
+            ],
+            [
+              "respo.ffi.browser",
+              ":refer",
+              [
+                "query-selector"
+              ]
+            ],
+            [
+              "js-ffi.shared",
+              ":refer",
+              [
+                "date-now-snapshot"
+              ]
+            ]
+          ]
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 9,
+        "doc": "",
+        "namespace": "app.schema",
+        "ns_code": [
+          "ns",
+          "app.schema"
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 1,
+        "doc": "",
+        "namespace": "app.snippet",
+        "ns_code": [
+          "ns",
+          "app.snippet",
+          [
+            ":require",
+            [
+              "js-ffi.shared",
+              ":as",
+              "shared"
+            ]
+          ]
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 1,
+        "doc": "",
+        "namespace": "app.updater",
+        "ns_code": [
+          "ns",
+          "app.updater",
+          [
+            ":require",
+            [
+              "respo.cursor",
+              ":refer",
+              [
+                "update-state-tree"
+              ]
+            ],
+            [
+              "app.schema",
+              ":refer",
+              [
+                "Op"
+              ]
+            ]
+          ]
+        ]
+      },
+      "schema_version": 1
+    },
+    {
+      "command": "query.ns",
+      "data": {
+        "definition_count": 1,
+        "doc": "",
+        "namespace": "app.util",
+        "ns_code": [
+          "ns",
+          "app.util"
+        ]
+      },
+      "schema_version": 1
+    }
+  ],
+  "definitions": [
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "calcit-dirname",
+          "|"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.$meta/calcit-dirname",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:b9c073ddc99189680e33ec22dc7f5689",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "calcit-filename",
+          "|calcit.cirru"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.$meta/calcit-filename",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:a2706c65c80308f07d99e2a9ab5bd02b",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defcomp",
+          "comp-container",
+          [
+            "reel"
+          ],
+          [
+            "let",
+            [
+              [
+                "store",
+                [
+                  ":store",
+                  "reel"
+                ]
+              ],
+              [
+                "states",
+                [
+                  "decode-map-as",
+                  [
+                    "option:unwrap",
+                    [
+                      "get",
+                      "store",
+                      ":states"
+                    ]
+                  ],
+                  [
+                    "::",
+                    "'Map",
+                    "'Dynamic",
+                    "'Dynamic"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "div",
+              [
+                "{}",
+                [
+                  ":style",
+                  [
+                    "merge",
+                    "ui/global"
+                  ]
+                ]
+              ],
+              [
+                "list->",
+                [
+                  "{}"
+                ],
+                [
+                  "->",
+                  "color-categories",
+                  [
+                    "map-indexed",
+                    [
+                      "fn",
+                      [
+                        "idx",
+                        "category"
+                      ],
+                      [
+                        "[]",
+                        "idx",
+                        [
+                          "div",
+                          [
+                            "{}",
+                            [
+                              ":style",
+                              [
+                                "merge",
+                                "ui/row",
+                                [
+                                  "{}",
+                                  [
+                                    ":margin",
+                                    "32"
+                                  ],
+                                  [
+                                    ":border-bottom",
+                                    "|1px solid #eee"
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ],
+                          [
+                            "div",
+                            [
+                              "{}",
+                              [
+                                ":style",
+                                [
+                                  "{}",
+                                  [
+                                    ":width",
+                                    "200"
+                                  ]
+                                ]
+                              ]
+                            ],
+                            [
+                              "<>",
+                              [
+                                ":category",
+                                "category"
+                              ],
+                              [
+                                "{}",
+                                [
+                                  ":font-family",
+                                  "ui/font-fancy"
+                                ],
+                                [
+                                  ":font-size",
+                                  "20"
+                                ],
+                                [
+                                  ":color",
+                                  [
+                                    "hsl",
+                                    "0",
+                                    "0",
+                                    "60"
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ],
+                          [
+                            "=<",
+                            "nil",
+                            "16"
+                          ],
+                          [
+                            "list->",
+                            [
+                              "{}",
+                              [
+                                ":style",
+                                "ui/column"
+                              ]
+                            ],
+                            [
+                              "->",
+                              [
+                                ":colors",
+                                "category"
+                              ],
+                              [
+                                "map-indexed",
+                                [
+                                  "fn",
+                                  [
+                                    "idx2",
+                                    "color"
+                                  ],
+                                  [
+                                    "[]",
+                                    "idx2",
+                                    [
+                                      "comp-pigment",
+                                      [
+                                        ">>",
+                                        "states",
+                                        [
+                                          "str",
+                                          "idx",
+                                          "|+",
+                                          "idx2"
+                                        ]
+                                      ],
+                                      "color"
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ],
+              [
+                "when",
+                "dev?",
+                [
+                  "comp-typed-reel",
+                  [
+                    ">>",
+                    "states",
+                    ":reel"
+                  ],
+                  "reel",
+                  [
+                    "{}"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/comp-container",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'reel.typed/State",
+                "'app.schema/Op",
+                [
+                  "::",
+                  "'Map",
+                  "'Dynamic",
+                  "'Dynamic"
+                ]
+              ]
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:b79c60501353fdfb3453a1508f788942",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defcomp",
+          "comp-pigment",
+          [
+            "states",
+            "color"
+          ],
+          [
+            "div",
+            [
+              "{}",
+              [
+                ":style",
+                [
+                  "merge",
+                  "ui/row",
+                  [
+                    "{}",
+                    [
+                      ":margin-bottom",
+                      "16"
+                    ],
+                    [
+                      ":align-items",
+                      ":center"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              "comp-copied",
+              "states",
+              [
+                ":value",
+                "color"
+              ],
+              [
+                "div",
+                [
+                  "{}",
+                  [
+                    ":style",
+                    [
+                      "{}",
+                      [
+                        ":width",
+                        "64"
+                      ],
+                      [
+                        ":height",
+                        "32"
+                      ],
+                      [
+                        ":background-color",
+                        [
+                          ":value",
+                          "color"
+                        ]
+                      ],
+                      [
+                        ":border",
+                        "|1px solid #eee"
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              "=<",
+              "16",
+              "nil"
+            ],
+            [
+              "<>",
+              [
+                ":comment",
+                "color"
+              ],
+              [
+                "{}",
+                [
+                  ":color",
+                  [
+                    "hsl",
+                    "0",
+                    "0",
+                    "70"
+                  ]
+                ],
+                [
+                  ":white-space",
+                  ":nowrap"
+                ],
+                [
+                  ":text-overflow",
+                  ":ellipsis"
+                ],
+                [
+                  ":overflow",
+                  ":hidden"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.container/comp-pigment",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ],
+              "'app.schema/Color"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:448f44a998f0bd96bb2e1f9eb435dee5",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defcomp",
+          "comp-copied",
+          [
+            "states",
+            "value",
+            "child"
+          ],
+          [
+            "let",
+            [
+              [
+                "cursor",
+                [
+                  "let",
+                  [
+                    [
+                      "raw",
+                      [
+                        "option:unwrap-or",
+                        [
+                          "get",
+                          "states",
+                          ":cursor"
+                        ],
+                        "nil"
+                      ]
+                    ]
+                  ],
+                  [
+                    "if",
+                    [
+                      "non-nil?",
+                      "raw"
+                    ],
+                    [
+                      "decode-map-as",
+                      "raw",
+                      [
+                        "::",
+                        "'List",
+                        "'Dynamic"
+                      ]
+                    ],
+                    "[]"
+                  ]
+                ]
+              ],
+              [
+                "visible?",
+                [
+                  "let",
+                  [
+                    [
+                      "data",
+                      [
+                        "option:unwrap-or",
+                        [
+                          "get",
+                          "states",
+                          ":data"
+                        ],
+                        "nil"
+                      ]
+                    ]
+                  ],
+                  [
+                    "if",
+                    [
+                      "non-nil?",
+                      "data"
+                    ],
+                    [
+                      "match",
+                      [
+                        "get",
+                        [
+                          "decode-map-as",
+                          "data",
+                          [
+                            "::",
+                            "'Map",
+                            "'Tag",
+                            "'Dynamic"
+                          ]
+                        ],
+                        ":visible?"
+                      ],
+                      [
+                        [
+                          ":some",
+                          "value"
+                        ],
+                        [
+                          "if",
+                          [
+                            "bool?",
+                            "value"
+                          ],
+                          "value",
+                          "false"
+                        ]
+                      ],
+                      [
+                        [
+                          ":none"
+                        ],
+                        "false"
+                      ]
+                    ],
+                    "false"
+                  ]
+                ]
+              ]
+            ],
+            [
+              "div",
+              [
+                "{}",
+                [
+                  ":style",
+                  [
+                    "{}",
+                    [
+                      ":position",
+                      ":relative"
+                    ],
+                    [
+                      ":cursor",
+                      ":pointer"
+                    ]
+                  ]
+                ],
+                [
+                  ":on-click",
+                  [
+                    "fn",
+                    [
+                      "e",
+                      "d!"
+                    ],
+                    [
+                      "hint-fn",
+                      [
+                        "{}",
+                        [
+                          ":args",
+                          [
+                            "[]",
+                            [
+                              "::",
+                              "'Map",
+                              "'Tag",
+                              "'Dynamic"
+                            ],
+                            [
+                              "::",
+                              "'Fn",
+                              [
+                                "{}",
+                                [
+                                  ":args",
+                                  [
+                                    "[]",
+                                    "'Enum"
+                                  ]
+                                ],
+                                [
+                                  ":return",
+                                  "'Unit"
+                                ],
+                                [
+                                  ":features",
+                                  [
+                                    "#{}",
+                                    ":js-ffi"
+                                  ]
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          ":return",
+                          "'Unit"
+                        ],
+                        [
+                          ":features",
+                          [
+                            "#{}",
+                            ":js-ffi"
+                          ]
+                        ]
+                      ]
+                    ],
+                    [
+                      "browser/clipboard-write-text!",
+                      "value"
+                    ],
+                    [
+                      "d!",
+                      [
+                        "::",
+                        ":states",
+                        "cursor",
+                        [
+                          "{}",
+                          [
+                            ":visible?",
+                            "true"
+                          ]
+                        ]
+                      ]
+                    ],
+                    [
+                      "browser/set-timeout!",
+                      [
+                        "fn",
+                        [],
+                        [
+                          "d!",
+                          [
+                            "::",
+                            ":states",
+                            "cursor",
+                            [
+                              "{}",
+                              [
+                                ":visible?",
+                                "false"
+                              ]
+                            ]
+                          ]
+                        ]
+                      ],
+                      "2000"
+                    ],
+                    "&unit"
+                  ]
+                ]
+              ],
+              "child",
+              [
+                "when",
+                "visible?",
+                [
+                  "div",
+                  [
+                    "{}",
+                    [
+                      ":style",
+                      [
+                        "{}",
+                        [
+                          ":position",
+                          ":absolute"
+                        ],
+                        [
+                          ":bottom",
+                          "|120%"
+                        ],
+                        [
+                          ":background-color",
+                          [
+                            "hsl",
+                            "0",
+                            "0",
+                            "30"
+                          ]
+                        ],
+                        [
+                          ":border",
+                          [
+                            "str",
+                            "|1px solid ",
+                            [
+                              "hsl",
+                              "0",
+                              "0",
+                              "70",
+                              [
+                                "Option",
+                                ":some",
+                                "0.5"
+                              ]
+                            ]
+                          ]
+                        ],
+                        [
+                          ":color",
+                          ":white"
+                        ],
+                        [
+                          ":padding",
+                          "|0 8px"
+                        ],
+                        [
+                          ":font-size",
+                          "12"
+                        ]
+                      ]
+                    ]
+                  ],
+                  [
+                    "<>",
+                    "|Copied"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.comp.copied/comp-copied",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.schema/Component"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ],
+              "'String",
+              "'respo.schema/Element"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:5836176d5fa09910f67d75490412c41e",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "bundle-builds",
+          [
+            "#{}",
+            "|release",
+            "|local-bundle"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.config/bundle-builds",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:65fe797a10ac1dadadbdb2f436a11147",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "dev?",
+          [
+            "=",
+            "|dev",
+            [
+              [
+                "get-env",
+                "|mode"
+              ],
+              ".unwrap-or",
+              "|prod"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.config/dev?",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:9dac848c5c845f4e3fa2ca1be0f9872a",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "site",
+          [
+            "{}",
+            [
+              ":storage",
+              "|color-finder"
+            ],
+            [
+              ":dev-ui",
+              "|http://localhost:8100/main.css"
+            ],
+            [
+              ":release-ui",
+              "|http://cdn.tiye.me/favored-fonts/main.css"
+            ],
+            [
+              ":cdn-url",
+              "|http://cdn.tiye.me/color-finder/"
+            ],
+            [
+              ":cdn-folder",
+              "|tiye.me:cdn/color-finder"
+            ],
+            [
+              ":title",
+              "|Color Finder"
+            ],
+            [
+              ":icon",
+              "|http://cdn.tiye.me/logo/mvc-works.png"
+            ],
+            [
+              ":upload-folder",
+              "|tiye.me:repo/chenyong/color-finder/"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.config/site",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:0d2926f0adece7a728c7eb048fe4b196",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defref",
+          "*reel",
+          [
+            "typed/new-reel",
+            "schema/store"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/*reel",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Ref",
+          [
+            "::",
+            "'reel.typed/State",
+            "'app.schema/Op",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:ebaca0ab4aee7bcf765b5c409c036a88",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "dispatch!",
+          [
+            "op"
+          ],
+          [
+            "match",
+            [
+              "typed/decode-control",
+              "op"
+            ],
+            [
+              [
+                ":some",
+                "control"
+              ],
+              [
+                "reset!",
+                "*reel",
+                [
+                  "typed/apply-control",
+                  "updater",
+                  "@*reel",
+                  "control"
+                ]
+              ]
+            ],
+            [
+              [
+                ":none"
+              ],
+              [
+                "reset!",
+                "*reel",
+                [
+                  "typed/record-op",
+                  "updater",
+                  "@*reel",
+                  [
+                    "schema/require-op",
+                    "op"
+                  ],
+                  [
+                    "generate-id!"
+                  ],
+                  [
+                    ":timestamp",
+                    [
+                      "date-now-snapshot"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/dispatch!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Enum"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:61225ce3cdf3887c2d3278587f19b732",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "main!",
+          [],
+          [
+            "match",
+            [
+              "browser/storage-get",
+              [
+                ".unwrap",
+                [
+                  "get",
+                  "config/site",
+                  ":storage"
+                ]
+              ]
+            ],
+            [
+              [
+                ":some",
+                "raw"
+              ],
+              [
+                "match",
+                [
+                  "try-parse-cirru-edn",
+                  "raw"
+                ],
+                [
+                  [
+                    ":ok",
+                    "data"
+                  ],
+                  [
+                    "if",
+                    [
+                      "map?",
+                      "data"
+                    ],
+                    [
+                      "match",
+                      [
+                        "get",
+                        "data",
+                        ":states"
+                      ],
+                      [
+                        [
+                          ":some",
+                          "states"
+                        ],
+                        [
+                          "if",
+                          [
+                            "map?",
+                            "states"
+                          ],
+                          [
+                            "dispatch!",
+                            [
+                              "::",
+                              ":hydrate-storage",
+                              "data"
+                            ]
+                          ],
+                          [
+                            "raise",
+                            "|Invalid-stored-states"
+                          ]
+                        ]
+                      ],
+                      [
+                        [
+                          ":none"
+                        ],
+                        [
+                          "raise",
+                          "|Missing-stored-states"
+                        ]
+                      ]
+                    ],
+                    [
+                      "raise",
+                      "|Invalid-stored-map"
+                    ]
+                  ]
+                ],
+                [
+                  [
+                    ":err",
+                    "_"
+                  ],
+                  [
+                    "raise",
+                    "|Cannot-parse-color-finder-storage"
+                  ]
+                ]
+              ]
+            ],
+            [
+              [
+                ":none"
+              ],
+              "&unit"
+            ]
+          ],
+          [
+            "render-app!"
+          ],
+          [
+            "add-watch!",
+            "*reel",
+            ":changes",
+            [
+              "fn",
+              [
+                "r",
+                "p"
+              ],
+              [
+                "render-app!"
+              ]
+            ]
+          ],
+          [
+            "listen-devtools!",
+            "|k",
+            "dispatch!"
+          ],
+          [
+            "browser/set-before-unload!",
+            [
+              "fn",
+              [
+                "e"
+              ],
+              [
+                "browser/storage-set!",
+                [
+                  [
+                    "get",
+                    "config/site",
+                    ":storage"
+                  ],
+                  ".unwrap"
+                ],
+                [
+                  "format-cirru-edn",
+                  [
+                    ":store",
+                    "@*reel"
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [
+            "println",
+            "|App started."
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/main!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:ac5f8b6a802ae92217b95d880b393fc0",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "mount-target",
+          [],
+          [
+            "option:unwrap",
+            [
+              "query-selector",
+              "|.app"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/mount-target",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'respo.dom/DomElement"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:9d01a359597111119b03d25e1b464cb7",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "reload!",
+          [],
+          [
+            "if",
+            [
+              "nil?",
+              "build-errors"
+            ],
+            [
+              "do",
+              [
+                "remove-watch!",
+                "*reel",
+                ":changes"
+              ],
+              [
+                "clear-cache!"
+              ],
+              [
+                "add-watch!",
+                "*reel",
+                ":changes",
+                [
+                  "fn",
+                  [
+                    "reel",
+                    "prev"
+                  ],
+                  [
+                    "render-app!"
+                  ]
+                ]
+              ],
+              [
+                "reset!",
+                "*reel",
+                [
+                  "typed/refresh",
+                  "updater",
+                  "@*reel",
+                  "schema/store"
+                ]
+              ],
+              [
+                "hud!",
+                "|ok~",
+                "|Ok"
+              ]
+            ],
+            [
+              "hud!",
+              "|error",
+              "build-errors"
+            ]
+          ],
+          "&unit"
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/reload!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:a84ef5adedf6c5d283b793c32d8e6c71",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "render-app!",
+          [],
+          [
+            "render!",
+            [
+              "mount-target"
+            ],
+            [
+              "comp-container",
+              "@*reel"
+            ],
+            [
+              "fn",
+              [
+                "op"
+              ],
+              [
+                "if",
+                [
+                  "enum?",
+                  "op"
+                ],
+                [
+                  "dispatch!",
+                  "op"
+                ],
+                [
+                  "raise",
+                  "|Expected Enum render operation"
+                ]
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.main/render-app!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:ca22c7db29348600482ba2bd73cab1a0",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defstruct",
+          "Category",
+          [
+            ":category",
+            "'String"
+          ],
+          [
+            ":colors",
+            [
+              "::",
+              "'List",
+              "'app.schema/Color"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/Category",
+        "js_ffi": null,
+        "schema": "'StructDef",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:674bc4256e119b6c34f6ae09d2340b68",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defstruct",
+          "Color",
+          [
+            ":value",
+            "'String"
+          ],
+          [
+            ":comment",
+            "'String"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/Color",
+        "js_ffi": null,
+        "schema": "'StructDef",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:37347c5ebaf9e6fa1d6bf4bf3eb2fda2",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defenum",
+          "Op",
+          [
+            ":states",
+            [
+              "::",
+              "'List",
+              "'Dynamic"
+            ],
+            "'Dynamic"
+          ],
+          [
+            ":content",
+            "'String"
+          ],
+          [
+            ":hydrate-storage",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/Op",
+        "js_ffi": null,
+        "schema": "'EnumDef",
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:95b990a5af9c3cd7e85e7c62e9963b5f",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "background-colors",
+          [
+            "[]",
+            [
+              "Color",
+              ":value",
+              "|#323232",
+              ":comment",
+              "|主视觉配色，默认按钮背景色，侧边菜单选中背景色"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#20335D",
+              ":comment",
+              "|导航栏Logo背景色"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#323232",
+              ":comment",
+              "|左侧导航栏背景色"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#0E1524",
+              ":comment",
+              "|导航栏选中分类区域背景色"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#DAEDFF",
+              ":comment",
+              "|概览页面图形填充色"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/background-colors",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:98b7e57ae77050be5be5614edd62a1ae",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "border-colors",
+          [
+            "[]",
+            [
+              "Color",
+              ":value",
+              "|#D9D9D9",
+              ":comment",
+              "|选择框边框颜色"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#E8E8E8",
+              ":comment",
+              "|分割线"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/border-colors",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:931332381f55a810c8f1d0a69409b586",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "color-categories",
+          [
+            "[]",
+            [
+              "Category",
+              ":category",
+              "|Background colors",
+              ":colors",
+              "background-colors"
+            ],
+            [
+              "Category",
+              ":category",
+              "|Border colors",
+              ":colors",
+              "border-colors"
+            ],
+            [
+              "Category",
+              ":category",
+              "|Font colors",
+              ":colors",
+              "font-colors"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/color-categories",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:d5a43d77340d03a44a421e2dc34c7645",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "font-colors",
+          [
+            "[]",
+            [
+              "Color",
+              ":value",
+              "|#2C85DD",
+              ":comment",
+              "|选中文字颜色"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#323232",
+              ":comment",
+              "|主要文字"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#6F6F6F",
+              ":comment",
+              "|次要提示性文字"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#979797",
+              ":comment",
+              "|面包屑导航"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#BDBDBD",
+              ":comment",
+              "|输入框提示文字"
+            ],
+            [
+              "Color",
+              ":value",
+              "|#ffffff",
+              ":comment",
+              "|左侧导航栏区域选中文字颜色"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/font-colors",
+        "js_ffi": null,
+        "schema": null,
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:7660fb002bc45cb31e279f32525fa65e",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "require-op",
+          [
+            "op"
+          ],
+          [
+            "match",
+            "op",
+            [
+              [
+                ":states",
+                "cursor",
+                "state"
+              ],
+              [
+                "Op",
+                ":states",
+                [
+                  "decode-map-as",
+                  "cursor",
+                  [
+                    "::",
+                    "'List",
+                    "'Dynamic"
+                  ]
+                ],
+                "state"
+              ]
+            ],
+            [
+              [
+                ":content",
+                "value"
+              ],
+              [
+                "Op",
+                ":content",
+                [
+                  "decode-map-as",
+                  "value",
+                  "'String"
+                ]
+              ]
+            ],
+            [
+              [
+                ":hydrate-storage",
+                "value"
+              ],
+              [
+                "let",
+                [
+                  [
+                    "store",
+                    [
+                      "decode-map-as",
+                      "value",
+                      [
+                        "::",
+                        "'Map",
+                        "'Dynamic",
+                        "'Dynamic"
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "match",
+                  [
+                    "get",
+                    "store",
+                    ":states"
+                  ],
+                  [
+                    [
+                      ":some",
+                      "states"
+                    ],
+                    [
+                      "if",
+                      [
+                        "map?",
+                        "states"
+                      ],
+                      [
+                        "Op",
+                        ":hydrate-storage",
+                        "store"
+                      ],
+                      [
+                        "raise",
+                        "|Expected saved states Map"
+                      ]
+                    ]
+                  ],
+                  [
+                    [
+                      ":none"
+                    ],
+                    [
+                      "raise",
+                      "|Expected saved states Map"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              "_",
+              [
+                "raise",
+                "|Unknown application operation"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/require-op",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'app.schema/Op"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'Enum"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:fa64122695578676218b846de320e6fb",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "def",
+          "store",
+          [
+            "{}",
+            [
+              ":states",
+              [
+                "{}"
+              ]
+            ],
+            [
+              ":content",
+              "|"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.schema/store",
+        "js_ffi": null,
+        "schema": [
+          "::",
+          "'Map",
+          "'Dynamic",
+          "'Dynamic"
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:ed5cbf16815a13ab625446b8831da8c6",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "main!",
+          [],
+          [
+            "println",
+            [
+              "join-string",
+              [
+                "map",
+                [
+                  "range",
+                  "1000"
+                ],
+                [
+                  "fn",
+                  [
+                    "x"
+                  ],
+                  [
+                    "str",
+                    "x"
+                  ]
+                ]
+              ],
+              "|&&"
+            ]
+          ],
+          [
+            "shared/console-clear!"
+          ],
+          [
+            "println",
+            [
+              "*",
+              "2",
+              "4"
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.snippet/main!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":return",
+            "'Unit"
+          ],
+          [
+            ":args",
+            [
+              "[]"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":js-ffi"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:203c190babbd74a3d188c91061708729",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "updater",
+          [
+            "store",
+            "op",
+            "op-id",
+            "op-time"
+          ],
+          [
+            "match",
+            "op",
+            [
+              [
+                ":states",
+                "cursor",
+                "state"
+              ],
+              [
+                "assoc",
+                "store",
+                ":states",
+                [
+                  "decode-map-as",
+                  [
+                    "update-state-tree",
+                    [
+                      "decode-map-as",
+                      [
+                        "option:unwrap",
+                        [
+                          "get",
+                          "store",
+                          ":states"
+                        ]
+                      ],
+                      [
+                        "::",
+                        "'Map",
+                        "'Dynamic",
+                        "'Dynamic"
+                      ]
+                    ],
+                    "cursor",
+                    "state"
+                  ],
+                  [
+                    "::",
+                    "'Map",
+                    "'Dynamic",
+                    "'Dynamic"
+                  ]
+                ]
+              ]
+            ],
+            [
+              [
+                ":content",
+                "value"
+              ],
+              [
+                "assoc",
+                "store",
+                ":content",
+                "value"
+              ]
+            ],
+            [
+              [
+                ":hydrate-storage",
+                "value"
+              ],
+              "value"
+            ],
+            [
+              "_",
+              [
+                "do",
+                [
+                  "println",
+                  "|Unknown op:",
+                  "op"
+                ],
+                "store"
+              ]
+            ]
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.updater/updater",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              [
+                "::",
+                "'Map",
+                "'Dynamic",
+                "'Dynamic"
+              ],
+              "'app.schema/Op",
+              "'String",
+              "'Number"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'Map",
+              "'Dynamic",
+              "'Dynamic"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": [
+          {
+            "code": [
+              "assert=",
+              [
+                "{}",
+                [
+                  ":states",
+                  [
+                    "{}"
+                  ]
+                ],
+                [
+                  ":content",
+                  "|hello"
+                ]
+              ],
+              [
+                "updater",
+                [
+                  "{}",
+                  [
+                    ":states",
+                    [
+                      "{}"
+                    ]
+                  ],
+                  [
+                    ":content",
+                    "|"
+                  ]
+                ],
+                [
+                  "Op",
+                  ":content",
+                  "|hello"
+                ],
+                "|id",
+                "0"
+              ]
+            ],
+            "name": "content-operation",
+            "tags": [
+              "unit"
+            ]
+          },
+          {
+            "code": [
+              "assert=",
+              [
+                "{}",
+                [
+                  ":states",
+                  [
+                    "{}"
+                  ]
+                ],
+                [
+                  ":content",
+                  "|saved"
+                ]
+              ],
+              [
+                "updater",
+                [
+                  "{}",
+                  [
+                    ":states",
+                    [
+                      "{}"
+                    ]
+                  ],
+                  [
+                    ":content",
+                    "|"
+                  ]
+                ],
+                [
+                  "Op",
+                  ":hydrate-storage",
+                  [
+                    "{}",
+                    [
+                      ":states",
+                      [
+                        "{}"
+                      ]
+                    ],
+                    [
+                      ":content",
+                      "|saved"
+                    ]
+                  ]
+                ],
+                "|id",
+                "0"
+              ]
+            ],
+            "name": "hydrate-operation",
+            "tags": [
+              "unit"
+            ]
+          },
+          {
+            "code": [
+              "assert=",
+              [
+                "Option",
+                ":some",
+                "true"
+              ],
+              [
+                "get-in",
+                [
+                  "updater",
+                  [
+                    "{}",
+                    [
+                      ":states",
+                      [
+                        "{}"
+                      ]
+                    ],
+                    [
+                      ":content",
+                      "|"
+                    ]
+                  ],
+                  [
+                    "Op",
+                    ":states",
+                    [
+                      "[]",
+                      ":copied"
+                    ],
+                    [
+                      "{}",
+                      [
+                        ":visible?",
+                        "true"
+                      ]
+                    ]
+                  ],
+                  "|id",
+                  "0"
+                ],
+                [
+                  "[]",
+                  ":states",
+                  ":copied",
+                  ":data",
+                  ":visible?"
+                ]
+              ]
+            ],
+            "name": "states-operation",
+            "tags": [
+              "unit"
+            ]
+          }
+        ]
+      },
+      "diagnostics": [],
+      "revision": "md5:011f2adcd4a305b5c70b1e9d0f427d1b",
+      "schema_version": 1
+    },
+    {
+      "command": "query.def",
+      "data": {
+        "code": [
+          "defn",
+          "get-env!",
+          [
+            "property"
+          ],
+          [
+            "get-env",
+            "property"
+          ]
+        ],
+        "doc": "",
+        "examples": [],
+        "ffi": null,
+        "ffi_edn": null,
+        "id": "app.util/get-env!",
+        "js_ffi": null,
+        "schema": [
+          "{}",
+          [
+            ":kind",
+            ":fn"
+          ],
+          [
+            ":args",
+            [
+              "[]",
+              "'String"
+            ]
+          ],
+          [
+            ":features",
+            [
+              "#{}",
+              ":env",
+              ":io"
+            ]
+          ],
+          [
+            ":return",
+            [
+              "::",
+              "'Option",
+              "'String"
+            ]
+          ]
+        ],
+        "tags": [],
+        "tests": []
+      },
+      "diagnostics": [],
+      "revision": "md5:483b5245f157647cad1914e970ae8a53",
+      "schema_version": 1
+    }
+  ]
+}

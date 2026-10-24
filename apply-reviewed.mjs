@@ -1,0 +1,28 @@
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+assert.equal(process.env.GITHUB_ACTIONS,'true');assert.equal(process.platform,'linux');assert.equal(execFileSync('calcit',['-v'],{encoding:'utf8'}).trim(),'0.30.1');
+const run=(...a)=>execFileSync('calcit',['calcit.cirru',...a],{encoding:'utf8',maxBuffer:48e6,stdio:['ignore','pipe','pipe']});
+const blob=()=>execFileSync('git',['hash-object','calcit.cirru'],{encoding:'utf8'}).trim();assert.equal(blob(),'5f7a6e160a1e47f0c41a3e996a0465195aa2ec91');
+const norm=v=>Array.isArray(v)?v.map(norm):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,k==='__edn_set'?x.map(norm).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b))):norm(x)])):v;
+const q=(...a)=>norm(JSON.parse(run('query',...a,'--format','json')).data);
+const input=JSON.parse(readFileSync('reviewed.json','utf8')),before={config:norm(input.config.data),namespaces:input.namespaces.map(x=>norm(x.data)),defs:input.definitions.map(x=>norm(x.data))};
+assert.equal(before.defs.length,26);assert.equal(before.defs.reduce((n,d)=>n+d.tests.length,0),3);assert.equal(before.defs.reduce((n,d)=>n+d.examples.length,0),0);assert.deepEqual(q('config'),before.config);assert.deepEqual(q('ns').namespaces.map(n=>q('ns',n)),before.namespaces);for(const d of before.defs)assert.deepEqual(q('def',d.id),d);
+const expected=structuredClone(before),ops=[],sites=[],counts={option:0,merge:0,identity:0,css:0,dispatch:0,schema:0};
+const show=(id,path)=>JSON.parse(run('tree','show',id,'--path','@'+path.join('.'),'--format','json')).tree;
+const replace=(id,path,old,value)=>{assert.deepEqual(show(id,path),old);ops.push(['tree','replace',id,'--path','@'+path.join('.'),'--input-format','json-ast','--code',JSON.stringify(value)]);sites.push({id,path,before:old,after:value});};
+const producer=q('def','respo.schema/EventHandler'),dispatch=producer.schema.find(p=>Array.isArray(p)&&p[0]===':args')[1][2];assert.deepEqual(dispatch,['::',"'Fn",['{}',[':rest',"'Dynamic"],[':return',"'Unit"],[':args',['[]',"'Dynamic"]]]]);
+const methods={'option:unwrap':'.unwrap','option:unwrap-or':'.unwrap-or'};
+function walk(x,path,id){if(!Array.isArray(x)||['quote','quasiquote','comment',';','defmacro'].includes(x[0]))return x;const identity=x[0]==='merge'&&x.length===2;if(identity){assert.equal(id,'app.comp.container/comp-container');assert.deepEqual(x,['merge','ui/global']);replace(id,path,x,x[1]);counts.identity++;return x[1];}
+if(methods[x[0]]){replace(id,[...path,0],x[0],methods[x[0]]);x[0]=methods[x[0]];counts.option++;}if(x[0]==='merge'){assert.ok(id.startsWith('app.comp.container/'));assert.equal(x.length,3);replace(id,[...path,0],x[0],'.merge');x[0]='.merge';counts.merge++;}
+if(x[0]==='{}'&&id.startsWith('app.comp.'))for(let i=1;i<x.length;i++){const pair=x[i];if(!Array.isArray(pair)||pair.length!==2)continue;const[k,v]=pair;let value;if([':margin',':width',':font-size',':margin-bottom',':height'].includes(k)&&typeof v==='string'&&/^\d+$/.test(v))value='|'+v+'px';else if([':align-items',':white-space',':text-overflow',':overflow',':position',':cursor',':color'].includes(k)&&typeof v==='string'&&v.startsWith(':'))value='|'+v.slice(1);if(value!==undefined){replace(id,[...path,i,1],v,value);pair[1]=value;counts.css++;}}
+if(x[0]==='::'&&x[1]==="'Fn"&&id==='app.comp.copied/comp-copied'){assert.ok(x[2].some(p=>Array.isArray(p)&&p[0]===':args'&&JSON.stringify(p[1])===JSON.stringify(['[]',"'Enum"])));replace(id,path,x,dispatch);counts.dispatch++;return structuredClone(dispatch);}
+return x.map((v,i)=>walk(v,[...path,i],id));}
+for(const d of expected.defs)d.code=walk(d.code,[],d.id);
+const schemas={'app.config/bundle-builds':['::',"'Set","'String"],'app.config/dev?':"'Bool",'app.config/site':['::',"'Map","'Tag","'String"],'app.schema/background-colors':['::',"'List","'app.schema/Color"],'app.schema/border-colors':['::',"'List","'app.schema/Color"],'app.schema/font-colors':['::',"'List","'app.schema/Color"],'app.schema/color-categories':['::',"'List","'app.schema/Category"]};
+for(const[id,schema]of Object.entries(schemas)){const d=expected.defs.find(d=>d.id===id);assert.equal(d.schema,null);d.schema=schema;ops.push(['edit','schema',id,'--input-format','json-ast','--code',JSON.stringify(schema)]);counts.schema++;}
+assert.deepEqual(counts,{option:5,merge:2,identity:1,css:15,dispatch:1,schema:7});assert.equal(ops.length,31);
+for(const d of before.defs){const e=expected.defs.find(x=>x.id===d.id);for(const k of Object.keys(d).filter(k=>!['code','schema'].includes(k)))assert.deepEqual(e[k],d[k]);if(!Object.hasOwn(schemas,d.id))assert.deepEqual(e.schema,d.schema);if(!d.id.startsWith('app.comp.')&&!['app.main/mount-target','app.updater/updater'].includes(d.id))assert.deepEqual(e.code,d.code);}
+mkdirSync('acceptance',{recursive:true});for(const[name,value]of Object.entries({before,expected,producer,sites,counts,operations:ops}))writeFileSync('acceptance/'+name+'.json',JSON.stringify(value,null,2));
+const txn=['edit','transaction','--file','acceptance/operations.json','--format','json'],preview=JSON.parse(run(...txn,'--dry-run'));assert.ok(preview.scoped_revision);writeFileSync('acceptance/preview.json',JSON.stringify(preview,null,2));writeFileSync('acceptance/applied.json',run(...txn,'--expect-revision',preview.scoped_revision));
+const after={config:q('config'),namespaces:q('ns').namespaces.map(n=>q('ns',n)),defs:expected.defs.map(d=>q('def',d.id))};assert.deepEqual(after,expected);writeFileSync('acceptance/after.json',JSON.stringify(after,null,2));writeFileSync('acceptance/snapshot-after-blob.txt',blob());
