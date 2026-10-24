@@ -8,9 +8,15 @@ Site http://chenyong.tiye.me/color-finder/
 
 ### 0.30.1 使用者影响
 
-当前配对精确正式 Calcit / `@calcit/procs` 0.30.1、Reel 0.6.41、UI 0.8.0、
-Respo 0.16.124、js-ffi 0.2.5，传递 Router 0.8.37。升级后重启开发服务并完整刷新。
+当前配对精确正式 Calcit / `@calcit/procs` 0.30.1、Reel 0.6.42、UI 0.8.1、
+Respo 0.16.126、js-ffi 0.2.6，传递 Router 0.8.38；Vite固定8.3.3。请重新安装完整图、重启开发服务并完整刷新，
+不混用旧alpha缓存。UI升级可能有样式差异，不承诺逐像素相同。
 合法存档仍保留原 Map 和未知字段，不迁移或清空；颜色、复制提示、存储 key 和部署路径不变。
+
+本轮迁移五处Option、两处Map merge和一处恒等包装，补齐七个静态配置/颜色集合的准确schema，
+静态CSS值改为等价String，复制回调声明实际Respo dispatch能力。公开Store/Op/Color/Category数据模型、
+原三项测试、两秒提示、热替换HUD和启动恢复顺序保持，不新增强转/预算/验证脚本或concurrently。
+本PR不授权合并、生产部署或发版；此前坏存档及Copied刷新定时器问题不因此宣称全部解决。
 
 恢复逻辑先于首次渲染及保存回调执行。存档解析失败、根非 Map、缺少 `:states` 或
 `:states` 非 Map 时，现在明确报错并中断启动，不再静默忽略后用初始状态覆盖原值。
