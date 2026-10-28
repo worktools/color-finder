@@ -6,9 +6,17 @@ Color Finder
 
 Site http://chenyong.tiye.me/color-finder/
 
-### 0.30.1 使用者影响
+### 0.31.0 使用者影响
 
-当前配对精确正式 Calcit / `@calcit/procs` 0.30.1、Reel 0.6.42、UI 0.8.1、
+工具链配对正式 Calcit / `@calcit/procs` 0.31.0，Reel 0.7.0-alpha.4、UI 0.9.0-alpha.4、Respo 0.17.0-alpha.4、js-ffi 0.2.7（传递 Router 0.9.0-alpha.3）；Vite 保持 8.3.3。请重新安装完整依赖图并刷新页面。UI 库仍为已发布的精确 alpha 标签，不使用 hash 依赖。
+
+颜色、复制内容、两秒提示、原 Map 存档、未知字段、HUD 和部署路径不变。复制提示的可选子节点改为零项/一项列表展开，避免条件表达式隐式产生 nil；原 states-operation 测试仅将 get-in 的成功结果从 Option 更新为 0.31.0 的 Result，保留全部三项测试和断言含义。为同时接收业务操作与匿名 Reel 控制事件，显式绑定 Enum 类型的 DispatchOp slot；原运行时守卫、Reel 控制解码及闭合 Op 解码不变，不放宽为 Dynamic。
+
+本轮全部定义 202/202、开发环境检查、完整 strict（无诊断）、原三项测试、canonical、Caps toolchain、immutable 安装与构建通过。隔离浏览器验证颜色列表、一次预设颜色复制、Copied 提示自动消失和随后刷新，控制台无新增 error/warn；不读取剪贴板原内容，也不声称验证了剪贴板字节。独立只读评审无阻塞意见。坏存档恢复与提示尚可见时立刻刷新未在本轮重测，以下既有风险仍保留；不以绿色 CI 宣称解决历史体验问题。
+
+### 此前 0.30.1 迁移记录
+
+此前配对精确正式 Calcit / `@calcit/procs` 0.30.1、Reel 0.6.42、UI 0.8.1、
 Respo 0.16.126、js-ffi 0.2.6，传递 Router 0.8.38；Vite固定8.3.3。请重新安装完整图、重启开发服务并完整刷新，
 不混用旧alpha缓存。UI升级可能有样式差异，不承诺逐像素相同。
 合法存档仍保留原 Map 和未知字段，不迁移或清空；颜色、复制提示、存储 key 和部署路径不变。
@@ -25,7 +33,7 @@ Respo 0.16.126、js-ffi 0.2.6，传递 Router 0.8.38；Vite固定8.3.3。请重�
 
 ### Development
 
-Requires paired Calcit / @calcit/procs 0.30.1, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
+Requires paired Calcit / @calcit/procs 0.31.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
 
 Use only `calcit.cirru` and `deps.cirru`. The retired `compact.cirru` and
 `package.cirru` snapshots must not be restored; CI checks their absence.

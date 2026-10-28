@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {}
+      :type-slots $ {} $ :dispatch-op |app.schema/DispatchOp
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -112,14 +112,16 @@
                         {} $ :visible? false
                       , 2000
                     , &unit
-                , child $ when visible? $ div
-                  {} $ :style $ {} (:position |absolute) (:bottom |120%)
-                    :background-color $ hsl 0 0 30
-                    :border $ str "|1px solid " $ hsl 0 0 70 (Option :some 0.5)
-                    :color |white
-                    :padding "|0 8px"
-                    :font-size |12px
-                  <> |Copied
+                , child & $ if visible?
+                  [] $ div
+                    {} $ :style $ {} (:position |absolute) (:bottom |120%)
+                      :background-color $ hsl 0 0 30
+                      :border $ str "|1px solid " $ hsl 0 0 70 (Option :some 0.5)
+                      :color |white
+                      :padding "|0 8px"
+                      :font-size |12px
+                    <> |Copied
+                  []
           :examples $ []
           :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
             :args $ [] (:: 'Map 'Dynamic 'Dynamic) 'String 'respo.schema/Element
@@ -255,6 +257,11 @@
           :code $ quote $ defstruct Color (:value 'String) (:comment 'String)
           :examples $ []
           :schema $ :: 'StructDef
+        'DispatchOp $ %{} 'CodeEntry
+          :doc "|UI boundary accepts application operations and anonymous Reel controls; dispatch! decodes both before updating state."
+          :code $ quote $ def DispatchOp (:: :unhandled)
+          :examples $ []
+          :schema $ :: 'Enum
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
             :states (:: 'List 'Dynamic) 'Dynamic
@@ -376,7 +383,7 @@
                   , |id 0
               :tags $ #{} :unit
             %{} 'TestEntry (:name |states-operation)
-              :code $ quote $ assert= (Option :some true)
+              :code $ quote $ assert= (Result :ok true)
                 get-in
                   updater
                     {}
