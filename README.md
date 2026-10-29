@@ -6,7 +6,15 @@ Color Finder
 
 Site http://chenyong.tiye.me/color-finder/
 
-### 0.31.0 使用者影响
+### 0.32.0 使用者影响
+
+本轮候选配对正式 Calcit / `@calcit/procs` 0.32.0，依赖目标为 Reel 0.7.0、UI 0.9.0、Respo 0.17.0、JS FFI 0.2.8（传递 Router 0.9.0）。Respo 系列仍使用本地候选图联调，正式 tag 发布后需重新通过 Caps 严格安装与远端 CI；不将本地候选视为已发布依赖。Vite 保持 8.3.3，升级后重新安装和完整刷新。
+
+官方 format 迁移 4 处类型标注，25 个定义的 schema 和原三项测试保持一致；原 Map 状态、未知字段、颜色、HUD、复制及两秒提示逻辑未改。全部 202 定义、完整 strict（diagnostics 为空）、原三项测试、canonical、immutable 和构建通过。
+
+隔离浏览器确认三类颜色共 13 个色块及刷新显示，控制台无 warning/error。未点击复制或操作剪贴板，也未重测两秒提示、坏存档、HMR 或提示可见时刷新；以下历史体验风险仍保留。独立只读评审未发现新增问题。原工作流和门禁未改，未部署。
+
+### 此前 0.31.0 使用者影响
 
 工具链配对正式 Calcit / `@calcit/procs` 0.31.0，Reel 0.7.0-alpha.4、UI 0.9.0-alpha.4、Respo 0.17.0-alpha.4、js-ffi 0.2.7（传递 Router 0.9.0-alpha.3）；Vite 保持 8.3.3。请重新安装完整依赖图并刷新页面。UI 库仍为已发布的精确 alpha 标签，不使用 hash 依赖。
 
@@ -33,7 +41,7 @@ Respo 0.16.126、js-ffi 0.2.6，传递 Router 0.8.38；Vite固定8.3.3。请重�
 
 ### Development
 
-Requires paired Calcit / @calcit/procs 0.31.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
+Requires paired Calcit / @calcit/procs 0.32.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
 
 Use only `calcit.cirru` and `deps.cirru`. The retired `compact.cirru` and
 `package.cirru` snapshots must not be restored; CI checks their absence.
