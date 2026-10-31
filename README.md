@@ -6,13 +6,13 @@ Color Finder
 
 Site http://chenyong.tiye.me/color-finder/
 
-### 0.32.0 使用者影响
+### 0.32.1 使用者影响
 
-本轮候选配对正式 Calcit / `@calcit/procs` 0.32.0，依赖目标为 Reel 0.7.0、UI 0.9.0、Respo 0.17.0、JS FFI 0.2.8（传递 Router 0.9.0）。Respo 系列仍使用本地候选图联调，正式 tag 发布后需重新通过 Caps 严格安装与远端 CI；不将本地候选视为已发布依赖。Vite 保持 8.3.3，升级后重新安装和完整刷新。
+本项目配对正式 Calcit / `@calcit/procs` **0.32.1**，使用已发布 Reel 0.7.0、UI 0.9.0、Respo 0.17.1、JS FFI 0.2.9 的真实 Caps 严格依赖图。UI 0.9.0 的传递 Router 仍精确固定为 0.9.0-alpha.4；没有改用 hash 或混入本地候选。Vite 保持 8.3.3，升级后重新安装并完整刷新。
 
-官方 format 迁移 4 处类型标注，25 个定义的 schema 和原三项测试保持一致；原 Map 状态、未知字段、颜色、HUD、复制及两秒提示逻辑未改。全部 202 定义、完整 strict（diagnostics 为空）、原三项测试、canonical、immutable 和构建通过。
+官方 format 规范化四处旧类型标注；25 个应用定义的代码、schema、metadata 和原三项测试与 main 经官方 format 归一后的查询视图相同。原 Map 状态、未知字段、颜色、JS HUD、复制及两秒提示逻辑不变。npm 新解析保持 60 分钟 age gate，无例外；原 CI、COS 内置 verify、前端预览前缀和 main-only rsync 路径不变，不新增脚本或放宽类型门禁。
 
-隔离浏览器确认三类颜色共 13 个色块及刷新显示，控制台无 warning/error。未点击复制或操作剪贴板，也未重测两秒提示、坏存档、HMR 或提示可见时刷新；以下历史体验风险仍保留。独立只读评审未发现新增问题。原工作流和门禁未改，未部署。
+本轮全 202 定义、完整 strict（diagnostics=[]）、原三项测试、canonical dry-run、正式依赖严格安装、immutable、工具链配对和构建通过。隔离 IAB 页面确认三类共 13 个色块和刷新正常，warning/error 为空；未操作系统剪贴板，未重测提示定时器、坏存档、HMR 或提示可见时刷新。以下旧存档和 Copied 刷新风险仍保留，不以绿色编译宣称已解决。官方 program-diff 暂不能加载升级前 Git Snapshot 的旧类型语法（[Calcit #2503](https://github.com/calcit-lang/calcit/issues/2503)），对照使用隔离历史副本经官方 format 后逐定义查询，不绕过原门禁。
 
 ### 此前 0.31.0 使用者影响
 
@@ -41,7 +41,7 @@ Respo 0.16.126、js-ffi 0.2.6，传递 Router 0.8.38；Vite固定8.3.3。请重�
 
 ### Development
 
-Requires paired Calcit / @calcit/procs 0.32.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
+Requires paired Calcit / @calcit/procs 0.32.1, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
 
 Use only `calcit.cirru` and `deps.cirru`. The retired `compact.cirru` and
 `package.cirru` snapshots must not be restored; CI checks their absence.
