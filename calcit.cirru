@@ -39,9 +39,10 @@
                               , color
                 when dev? $ comp-typed-reel (>> states :reel) reel $ {}
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] $ :: 'reel.typed/State 'app.schema/Op (:: 'Map 'Dynamic 'Dynamic)
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn
+            reel.typed/State app.schema/Op $ Map Dynamic Dynamic
+            -> respo.schema/Component
+            :features :js-ffi
         'comp-pigment $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-pigment (states color)
             div
@@ -60,9 +61,7 @@
                   :text-overflow |ellipsis
                   :overflow |hidden
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] (:: 'Map 'Dynamic 'Dynamic) 'app.schema/Color
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (Map Dynamic Dynamic) app.schema/Color (-> respo.schema/Component) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
           :require
@@ -99,12 +98,10 @@
                 {}
                   :style $ {} (:position |relative) (:cursor |pointer)
                   :on-click $ fn (e d!)
-                    hint-fn $ {}
-                      :args $ [] (:: 'Map 'Tag 'Dynamic)
-                        :: 'Fn $ {} (:rest 'Dynamic) (:return 'Unit)
-                          :args $ [] 'Dynamic
-                      :return 'Unit
-                      :features $ #{} :js-ffi
+                    hint-fn $ Fn (Map Tag Dynamic)
+                      Fn Dynamic & Dynamic $ -> Unit
+                      -> Unit
+                      :features :js-ffi
                     browser/clipboard-write-text! value
                     d! $ :: :states cursor $ {} (:visible? true)
                     browser/set-timeout!
@@ -123,9 +120,7 @@
                     <> |Copied
                   []
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.schema/Component)
-            :args $ [] (:: 'Map 'Dynamic 'Dynamic) 'String 'respo.schema/Element
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (Map Dynamic Dynamic) String respo.schema/Element (-> respo.schema/Component) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.copied
           :require
@@ -137,19 +132,19 @@
         'bundle-builds $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def bundle-builds (#{} |release |local-bundle)
           :examples $ []
-          :schema $ :: 'Set 'String
+          :schema $ quote $ Set String
         'dev? $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def dev?
             = |dev $
               get-env |mode
               , .unwrap-or |prod
           :examples $ []
-          :schema $ :: 'Bool
+          :schema $ quote Bool
         'site $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def site
             {} (:storage |color-finder) (:dev-ui |http://localhost:8100/main.css) (:release-ui |http://cdn.tiye.me/favored-fonts/main.css) (:cdn-url |http://cdn.tiye.me/color-finder/) (:cdn-folder |tiye.me:cdn/color-finder) (:title "|Color Finder") (:icon |http://cdn.tiye.me/logo/mvc-works.png) (:upload-folder |tiye.me:repo/chenyong/color-finder/)
           :examples $ []
-          :schema $ :: 'Map 'Tag 'String
+          :schema $ quote $ Map Tag String
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.config
           :require $ app.util :refer $ get-env!
@@ -158,7 +153,8 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ :: 'Ref $ :: 'reel.typed/State 'app.schema/Op (:: 'Map 'Dynamic 'Dynamic)
+          :schema $ quote $ Ref
+            reel.typed/State app.schema/Op $ Map Dynamic Dynamic
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             match (typed/decode-control op)
@@ -169,9 +165,7 @@
                   :timestamp $ date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ [] 'Enum
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn Enum (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             match
@@ -199,16 +193,12 @@
                 format-cirru-edn $ :store @*reel
             println "|App started."
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'mount-target $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn mount-target ()
             .unwrap $ query-selector |.app
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'respo.dom/DomElement)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> respo.dom/DomElement) (:features :js-ffi)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -219,18 +209,14 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render! (mount-target) (comp-container @*reel)
               fn (op)
                 if (enum? op) (dispatch! op) (raise "|Expected Enum render operation")
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
           :require
@@ -250,45 +236,47 @@
       :defs $ {}
         'Category $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Category (:category 'String)
-            :colors $ :: 'List 'app.schema/Color
+            :colors $ quote $ List app.schema/Color
           :examples $ []
-          :schema $ :: 'StructDef
+          :schema $ quote StructDef
         'Color $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Color (:value 'String) (:comment 'String)
           :examples $ []
-          :schema $ :: 'StructDef
+          :schema $ quote StructDef
         'DispatchOp $ %{} 'CodeEntry
           :doc "|UI boundary accepts application operations and anonymous Reel controls; dispatch! decodes both before updating state."
           :code $ quote $ def DispatchOp (:: :unhandled)
           :examples $ []
-          :schema $ :: 'Enum
+          :schema $ quote Enum
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states (:: 'List 'Dynamic) 'Dynamic
+            :states
+              quote $ List Dynamic
+              , 'Dynamic
             :content 'String
-            :hydrate-storage $ :: 'Map 'Dynamic 'Dynamic
+            :hydrate-storage $ quote $ Map Dynamic Dynamic
           :examples $ []
-          :schema $ :: 'EnumDef
+          :schema $ quote EnumDef
         'background-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def background-colors
             [] (Color :value |#323232 :comment "|主视觉配色，默认按钮背景色，侧边菜单选中背景色") (Color :value |#20335D :comment "|导航栏Logo背景色") (Color :value |#323232 :comment "|左侧导航栏背景色") (Color :value |#0E1524 :comment "|导航栏选中分类区域背景色") (Color :value |#DAEDFF :comment "|概览页面图形填充色")
           :examples $ []
-          :schema $ :: 'List 'app.schema/Color
+          :schema $ quote $ List app.schema/Color
         'border-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def border-colors
             [] (Color :value |#D9D9D9 :comment "|选择框边框颜色") (Color :value |#E8E8E8 :comment "|分割线")
           :examples $ []
-          :schema $ :: 'List 'app.schema/Color
+          :schema $ quote $ List app.schema/Color
         'color-categories $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def color-categories
             [] (Category :category "|Background colors" :colors background-colors) (Category :category "|Border colors" :colors border-colors) (Category :category "|Font colors" :colors font-colors)
           :examples $ []
-          :schema $ :: 'List 'app.schema/Category
+          :schema $ quote $ List app.schema/Category
         'font-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def font-colors
             [] (Color :value |#2C85DD :comment "|选中文字颜色") (Color :value |#323232 :comment "|主要文字") (Color :value |#6F6F6F :comment "|次要提示性文字") (Color :value |#979797 :comment "|面包屑导航") (Color :value |#BDBDBD :comment "|输入框提示文字") (Color :value |#ffffff :comment "|左侧导航栏区域选中文字颜色")
           :examples $ []
-          :schema $ :: 'List 'app.schema/Color
+          :schema $ quote $ List app.schema/Color
         'require-op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn require-op (op)
             match op
@@ -307,15 +295,14 @@
                     (:none) (raise "|Expected saved states Map")
               _ $ raise "|Unknown application operation"
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'app.schema/Op)
-            :args $ [] 'Enum
+          :schema $ quote $ Fn Enum (-> app.schema/Op)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             {}
               :states $ {}
               :content |
           :examples $ []
-          :schema $ :: 'Map 'Dynamic 'Dynamic
+          :schema $ quote $ Map Dynamic Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.snippet $ %{} 'FileEntry
@@ -329,9 +316,7 @@
             shared/console-clear!
             println $ * 2 4
           :examples $ []
-          :schema $ :: 'Fn $ {} (:return 'Unit)
-            :args $ []
-            :features $ #{} :js-ffi
+          :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.snippet
           :require $ js-ffi.shared :as shared
@@ -352,9 +337,8 @@
               (:hydrate-storage value) value
               _ $ do (println "|Unknown op:" op) store
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ [] (:: 'Map 'Dynamic 'Dynamic) 'app.schema/Op 'String 'Number
-            :return $ :: 'Map 'Dynamic 'Dynamic
+          :schema $ quote $ Fn (Map Dynamic Dynamic) app.schema/Op String Number
+            -> $ Map Dynamic Dynamic
           :tests $ []
             %{} 'TestEntry (:name |content-operation)
               :code $ quote $ assert=
@@ -404,9 +388,8 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defn get-env! (property) (get-env property)
           :examples $ []
-          :schema $ :: 'Fn $ {}
-            :args $ [] 'String
-            :features $ #{} :env :io
-            :return $ :: 'Option 'String
+          :schema $ quote $ Fn String
+            -> $ Option String
+            :features :env :io
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.util
