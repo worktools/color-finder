@@ -16,7 +16,7 @@
                 store $ :store reel
                 states $ decode-map-as
                   .unwrap $ get store :states
-                  :: 'Map 'Dynamic 'Dynamic
+                  Map Dynamic Dynamic
               div
                 {} $ :style ui/global
                 list-> ({})
@@ -29,7 +29,7 @@
                         <> (:category category)
                           {} (:font-family ui/font-fancy) (:font-size |20px)
                             :color $ hsl 0 0 60
-                      =< nil 16
+                      respo.comp.space/space-y 16
                       list->
                         {} $ :style ui/column
                         -> (:colors category)
@@ -37,7 +37,9 @@
                             [] idx2 $ comp-pigment
                               >> states $ str idx |+ idx2
                               , color
-                when dev? $ comp-typed-reel (>> states :reel) reel $ {}
+                if dev?
+                  Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                  Option :none
           :examples $ []
           :schema $ quote $ Fn
             reel.typed/State app.schema/Op $ Map Dynamic Dynamic
@@ -53,7 +55,7 @@
                   {} (:width |64px) (:height |32px)
                     :background-color $ :value color
                     :border "|1px solid #eee"
-              =< 16 nil
+              respo.comp.space/space-x 16
               <> (:comment color)
                 {}
                   :color $ hsl 0 0 70
@@ -61,14 +63,13 @@
                   :text-overflow |ellipsis
                   :overflow |hidden
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic) app.schema/Color (-> respo.schema/Component) (:features :js-ffi)
+          :schema $ quote $ Fn respo.schema/States app.schema/Color (-> respo.schema/Component) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.container
           :require
             respo-ui.core :refer $ hsl
             respo-ui.core :as ui
             respo.core :refer $ defcomp list-> >> <> div button textarea span
-            respo.comp.space :refer $ =<
             reel.comp.reel :refer $ comp-typed-reel
             app.config :refer $ dev?
             app.schema :refer $ color-categories
@@ -78,35 +79,38 @@
         %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-copied (states value child)
             let
-                cursor $ let
-                    raw $ .unwrap-or (get states :cursor) nil
-                  if (non-nil? raw)
-                    decode-map-as raw $ :: 'List 'Dynamic
-                    , []
-                visible? $ let
-                    data $ .unwrap-or (get states :data) nil
-                  if (non-nil? data)
-                    match
-                      get
-                        decode-map-as data $ :: 'Map 'Tag 'Dynamic
-                        , :visible?
-                      (:some value)
-                        if (bool? value) value false
-                      (:none) false
-                    , false
+                cursor $ decode-map-as
+                  match (get states :cursor)
+                    (:some raw)
+                      if (nil? raw) ([]) raw
+                    (:none) ([])
+                  List respo.schema/CoordKey
+                visible? $ match (get states :data)
+                  (:some data)
+                    if (non-nil? data)
+                      match
+                        get
+                          decode-map-as data $ Map Tag Dynamic
+                          , :visible?
+                        (:some value)
+                          if (bool? value) value false
+                        (:none) false
+                      , false
+                  (:none) false
               div
                 {}
                   :style $ {} (:position |relative) (:cursor |pointer)
                   :on-click $ fn (e d!)
-                    hint-fn $ Fn (Map Tag Dynamic)
-                      Fn Dynamic & Dynamic $ -> Unit
+                    hint-fn $ Fn respo.schema/RespoEvent
+                      Fn AnyEnum $ -> Unit
                       -> Unit
                       :features :js-ffi
                     browser/clipboard-write-text! value
-                    d! $ :: :states cursor $ {} (:visible? true)
+                    d! $ app.schema/Op :states cursor $ {} (:visible? true)
                     browser/set-timeout!
-                      fn () $ d! $ :: :states cursor
-                        {} $ :visible? false
+                      fn ()
+                        hint-fn $ Fn $ -> Unit
+                        d! $ app.schema/Op :states cursor $ {} (:visible? false)
                       , 2000
                     , &unit
                 , child & $ if visible?
@@ -120,7 +124,7 @@
                     <> |Copied
                   []
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic) String respo.schema/Element (-> respo.schema/Component) (:features :js-ffi)
+          :schema $ quote $ Fn respo.schema/States String respo.schema/Element (-> respo.schema/Component) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.comp.copied
           :require
@@ -165,7 +169,7 @@
                   :timestamp $ date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ quote $ Fn Enum (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             match
@@ -212,15 +216,15 @@
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
-            render! (mount-target) (comp-container @*reel)
-              fn (op)
-                if (enum? op) (dispatch! op) (raise "|Expected Enum render operation")
+            render-with! (mount-target)
+              fn () $ comp-container @*reel
+              , dispatch!
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
           :require
-            respo.core :refer $ render! clear-cache! realize-ssr!
+            respo.core :refer $ render-with! clear-cache!
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
@@ -235,26 +239,24 @@
     'app.schema $ %{} 'FileEntry
       :defs $ {}
         'Category $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct Category (:category 'String)
-            :colors $ quote $ List app.schema/Color
+          :code $ quote $ defstruct Category (:category String)
+            :colors $ List app.schema/Color
           :examples $ []
           :schema $ quote StructDef
         'Color $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defstruct Color (:value 'String) (:comment 'String)
+          :code $ quote $ defstruct Color (:value String) (:comment String)
           :examples $ []
           :schema $ quote StructDef
         'DispatchOp $ %{} 'CodeEntry
           :doc "|UI boundary accepts application operations and anonymous Reel controls; dispatch! decodes both before updating state."
           :code $ quote $ def DispatchOp (:: :unhandled)
           :examples $ []
-          :schema $ quote Enum
+          :schema $ quote AnyEnum
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states
-              quote $ List Dynamic
-              , 'Dynamic
-            :content 'String
-            :hydrate-storage $ quote $ Map Dynamic Dynamic
+            :states (List respo.schema/CoordKey) Dynamic
+            :content String
+            :hydrate-storage $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote EnumDef
         'background-colors $ %{} 'CodeEntry (:doc |)
@@ -282,20 +284,20 @@
             match op
               (:states cursor state)
                 Op :states
-                  decode-map-as cursor $ :: 'List 'Dynamic
+                  decode-map-as cursor $ List respo.schema/CoordKey
                   , state
               (:content value)
                 Op :content $ decode-map-as value 'String
               (:hydrate-storage value)
                 let
-                    store $ decode-map-as value $ :: 'Map 'Dynamic 'Dynamic
+                    store $ decode-map-as value $ Map Dynamic Dynamic
                   match (get store :states)
                     (:some states)
                       if (map? states) (Op :hydrate-storage store) (raise "|Expected saved states Map")
                     (:none) (raise "|Expected saved states Map")
               _ $ raise "|Unknown application operation"
           :examples $ []
-          :schema $ quote $ Fn Enum (-> app.schema/Op)
+          :schema $ quote $ Fn AnyEnum (-> app.schema/Op)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             {}
@@ -330,9 +332,9 @@
                   update-state-tree
                     decode-map-as
                       .unwrap $ get store :states
-                      :: 'Map 'Dynamic 'Dynamic
+                      Map Dynamic Dynamic
                     , cursor state
-                  :: 'Map 'Dynamic 'Dynamic
+                  Map Dynamic Dynamic
               (:content value) (assoc store :content value)
               (:hydrate-storage value) value
               _ $ do (println "|Unknown op:" op) store
