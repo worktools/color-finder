@@ -6,7 +6,7 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op |app.schema/DispatchOp
+      :type-slots $ {} $ :dispatch-op 'app.schema/DispatchOp
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
@@ -102,15 +102,15 @@
                   :style $ {} (:position |relative) (:cursor |pointer)
                   :on-click $ fn (e d!)
                     hint-fn $ Fn respo.schema/RespoEvent
-                      Fn AnyEnum $ -> Unit
+                      Fn app.schema/Op $ -> Unit
                       -> Unit
                       :features :js-ffi
                     browser/clipboard-write-text! value
-                    d! $ app.schema/Op :states cursor $ {} (:visible? true)
+                    d! $ app.schema/Op :copy-visible cursor true
                     browser/set-timeout!
                       fn ()
                         hint-fn $ Fn $ -> Unit
-                        d! $ app.schema/Op :states cursor $ {} (:visible? false)
+                        d! $ app.schema/Op :copy-visible cursor false
                       , 2000
                     , &unit
                 , child & $ if visible?
@@ -255,6 +255,7 @@
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
             :states (List respo.schema/CoordKey) Dynamic
+            :copy-visible (List respo.schema/CoordKey) Bool
             :content String
             :hydrate-storage $ Map Dynamic Dynamic
           :examples $ []
@@ -286,6 +287,10 @@
                 Op :states
                   decode-map-as cursor $ List respo.schema/CoordKey
                   , state
+              (:copy-visible cursor visible?)
+                app.schema/Op :copy-visible
+                  decode-map-as cursor $ List respo.schema/CoordKey
+                  decode-map-as visible? 'Bool
               (:content value)
                 Op :content $ decode-map-as value 'String
               (:hydrate-storage value)
@@ -335,6 +340,10 @@
                       Map Dynamic Dynamic
                     , cursor state
                   Map Dynamic Dynamic
+              (:copy-visible cursor visible?)
+                recur store
+                  app.schema/Op :states cursor $ {} $ :visible? visible?
+                  , op-id op-time
               (:content value) (assoc store :content value)
               (:hydrate-storage value) value
               _ $ do (println "|Unknown op:" op) store
@@ -379,6 +388,17 @@
                       {} $ :visible? true
                     , |id 0
                   [] :states :copied :data :visible?
+              :tags $ #{} :unit
+            %{} 'TestEntry (:name |typed-copy-visibility)
+              :code $ quote $ let
+                  cursor $ [] |0+0
+                  shown $ updater app.schema/store (app.schema/Op :copy-visible cursor true) |id 0
+                assert= (Result :ok true)
+                  get-in shown $ [] :states |0+0 :data :visible?
+                assert= (Result :ok false)
+                  get-in
+                    updater shown (app.schema/Op :copy-visible cursor false) |id 0
+                    [] :states |0+0 :data :visible?
               :tags $ #{} :unit
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater

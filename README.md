@@ -8,9 +8,9 @@ Site http://chenyong.tiye.me/color-finder/
 
 ### 使用者影响
 
-升级到 Calcit 和 `@calcit/procs` **0.35.1** 后，请重新安装依赖、编译并刷新。13 个色块、复制文本、两秒 Copied 提示、原 Map 存档和页面 HUD 继续适用。
+升级到 Calcit 和 `@calcit/procs` **0.37.0** 后，请重新安装依赖、编译并刷新。13 个色块、复制文本、两秒 Copied 提示、原 Map 存档和页面 HUD 继续适用。
 
-复制回调使用 `RespoEvent`，状态操作校验 Respo 的 `CoordKey`，存档中的其他字段继续保留。正式依赖为 Respo **0.19.4**、Reel **0.9.2**、UI **0.15.1**、JS-FFI **0.2.13**，传递 Router **0.12.1**。
+复制回调使用 `RespoEvent`，状态操作校验 Respo 的 `CoordKey`，存档中的其他字段继续保留。正式依赖为 Respo **0.19.5**、Reel **0.10.0**、UI **0.15.2**、JS-FFI **0.2.13**，传递 Router **0.12.2**。
 
 ### 此前 0.31.0 使用者影响
 
@@ -39,7 +39,7 @@ Respo 0.16.126、js-ffi 0.2.6，传递 Router 0.8.38；Vite固定8.3.3。请重�
 
 ### Development
 
-Requires paired Calcit / @calcit/procs 0.35.1, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
+Requires paired Calcit / @calcit/procs 0.37.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
 
 Use only `calcit.cirru` and `deps.cirru`. The retired `compact.cirru` and
 `package.cirru` snapshots must not be restored; CI checks their absence.
