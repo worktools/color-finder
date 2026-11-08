@@ -39,7 +39,7 @@ Respo 0.16.126、js-ffi 0.2.6，传递 Router 0.8.38；Vite固定8.3.3。请重�
 
 ### Development
 
-Requires paired Calcit / @calcit/procs 0.37.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
+Requires paired Calcit / @calcit/procs 0.38.0, Caps 0.1.1, Node.js 24, and Yarn 4.18.0.
 
 Use only `calcit.cirru` and `deps.cirru`. The retired `compact.cirru` and
 `package.cirru` snapshots must not be restored; CI checks their absence.
