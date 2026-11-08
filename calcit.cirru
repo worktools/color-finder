@@ -19,9 +19,9 @@
                   Map Dynamic Dynamic
               div
                 {} $ :style ui/global
-                list-> ({})
-                  -> color-categories $ map-indexed $ fn (idx category)
-                    [] idx $ div
+                respo.core/keyed-> ({})
+                  map-indexed color-categories $ fn (idx category)
+                    respo.core/keyed-element idx $ div
                       {} $ :style $ .merge ui/row
                         {} (:margin |32px) (:border-bottom "|1px solid #eee")
                       div
@@ -30,11 +30,11 @@
                           {} (:font-family ui/font-fancy) (:font-size |20px)
                             :color $ hsl 0 0 60
                       respo.comp.space/space-y 16
-                      list->
+                      respo.core/keyed->
                         {} $ :style ui/column
-                        -> (:colors category)
-                          map-indexed $ fn (idx2 color)
-                            [] idx2 $ comp-pigment
+                        map-indexed (:colors category)
+                          fn (idx2 color)
+                            respo.core/keyed-component idx2 $ comp-pigment
                               >> states $ str idx |+ idx2
                               , color
                 if dev?
@@ -161,15 +161,14 @@
             reel.typed/State app.schema/Op $ Map Dynamic Dynamic
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
-            match (typed/decode-control op)
-              (:some control)
-                reset! *reel $ typed/apply-control updater @*reel control
-              (:none)
-                reset! *reel $ typed/record-op updater @*reel (schema/require-op op) (generate-id!)
+            reset! *reel $ match op
+              (reel.typed/Control control) (typed/apply-control updater @*reel control)
+              (app.schema/Op action)
+                typed/record-op updater @*reel action (generate-id!)
                   :timestamp $ date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> Unit) (:features :js-ffi)
+          :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             match
@@ -181,7 +180,7 @@
                       match (get data :states)
                         (:some states)
                           if (map? states)
-                            dispatch! $ :: :hydrate-storage data
+                            dispatch! $ schema/Op :hydrate-storage $ decode-map-as data (Map Dynamic Dynamic)
                             raise |Invalid-stored-states
                         (:none) (raise |Missing-stored-states)
                       raise |Invalid-stored-map
@@ -189,7 +188,7 @@
               (:none) &unit
             render-app!
             add-watch! *reel :changes $ fn (r p) (render-app!)
-            listen-devtools! |k dispatch!
+            listen-devtools-toggle! |k $ fn () $ dispatch! (reel.typed/Control :toggle)
             browser/set-before-unload! $ fn (e)
               browser/storage-set!
                   get config/site :storage
@@ -218,7 +217,8 @@
           :code $ quote $ defn render-app! ()
             render-with! (mount-target)
               fn () $ comp-container @*reel
-              , dispatch!
+              fn (op)
+                dispatch! $ schema/require-op op
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
@@ -228,7 +228,7 @@
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
-            reel.util :refer $ listen-devtools!
+            reel.util :refer $ listen-devtools-toggle!
             app.config :as config
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
@@ -260,6 +260,10 @@
             :hydrate-storage $ Map Dynamic Dynamic
           :examples $ []
           :schema $ quote EnumDef
+        'ResolvedOp $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defunion ResolvedOp app.schema/Op reel.typed/Control
+          :examples $ []
+          :schema $ quote UnionDef
         'background-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def background-colors
             [] (Color :value |#323232 :comment "|主视觉配色，默认按钮背景色，侧边菜单选中背景色") (Color :value |#20335D :comment "|导航栏Logo背景色") (Color :value |#323232 :comment "|左侧导航栏背景色") (Color :value |#0E1524 :comment "|导航栏选中分类区域背景色") (Color :value |#DAEDFF :comment "|概览页面图形填充色")
@@ -282,27 +286,30 @@
           :schema $ quote $ List app.schema/Color
         'require-op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn require-op (op)
-            match op
-              (:states cursor state)
-                Op :states
-                  decode-map-as cursor $ List respo.schema/CoordKey
-                  , state
-              (:copy-visible cursor visible?)
-                app.schema/Op :copy-visible
-                  decode-map-as cursor $ List respo.schema/CoordKey
-                  decode-map-as visible? 'Bool
-              (:content value)
-                Op :content $ decode-map-as value 'String
-              (:hydrate-storage value)
-                let
-                    store $ decode-map-as value $ Map Dynamic Dynamic
-                  match (get store :states)
-                    (:some states)
-                      if (map? states) (Op :hydrate-storage store) (raise "|Expected saved states Map")
-                    (:none) (raise "|Expected saved states Map")
-              _ $ raise "|Unknown application operation"
+            match (typed/decode-control op)
+              (:some control) control
+              (:none)
+                match op
+                  (:states cursor state)
+                    Op :states
+                      decode-map-as cursor $ List respo.schema/CoordKey
+                      , state
+                  (:copy-visible cursor visible?)
+                    Op :copy-visible
+                      decode-map-as cursor $ List respo.schema/CoordKey
+                      decode-map-as visible? 'Bool
+                  (:content value)
+                    Op :content $ decode-map-as value 'String
+                  (:hydrate-storage value)
+                    let
+                        store $ decode-map-as value $ Map Dynamic Dynamic
+                      match (get store :states)
+                        (:some states)
+                          if (map? states) (Op :hydrate-storage store) (raise "|Expected saved states Map")
+                        (:none) (raise "|Expected saved states Map")
+                  _ $ raise "|Unknown application operation"
           :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> app.schema/Op)
+          :schema $ quote $ Fn AnyEnum (-> app.schema/ResolvedOp)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             {}
@@ -312,6 +319,7 @@
           :schema $ quote $ Map Dynamic Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
+          :require $ reel.typed :as typed
     'app.snippet $ %{} 'FileEntry
       :defs $ {} $ 'main!
         %{} 'CodeEntry (:doc |)
