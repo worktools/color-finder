@@ -6,12 +6,12 @@
     {} (:description |) (:init-fn 'app.main/main!) (:mode :js) (:reload-fn 'app.main/reload!) (:target :browser)
       :feature-policy $ {}
       :modules $ [] |respo.calcit/ |respo-ui.calcit/ |reel.calcit/ |js-ffi/
-      :type-slots $ {} $ :dispatch-op 'app.schema/DispatchOp
+      :type-slots $ {} $ :dispatch-op 'app.schema/Op
   :files $ {}
     'app.comp.container $ %{} 'FileEntry
       :defs $ {}
         'comp-container $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defcomp comp-container (reel)
+          :code $ quote $ defcomp comp-container (reel on-control)
             let
                 store $ :store reel
                 states $ decode-map-as
@@ -38,11 +38,12 @@
                               >> states $ str idx |+ idx2
                               , color
                 if dev?
-                  Option :some $ comp-typed-reel (>> states :reel) reel $ {}
+                  Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control
                   Option :none
           :examples $ []
           :schema $ quote $ Fn
             reel.typed/State app.schema/Op $ Map Dynamic Dynamic
+            Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
             :features :js-ffi
         'comp-pigment $ %{} 'CodeEntry (:doc |)
@@ -188,7 +189,7 @@
               (:none) &unit
             render-app!
             add-watch! *reel :changes $ fn (r p) (render-app!)
-            listen-devtools-toggle! |k $ fn () $ dispatch! (reel.typed/Control :toggle)
+            listen-devtools! |k on-control!
             browser/set-before-unload! $ fn (e)
               browser/storage-set!
                   get config/site :storage
@@ -202,6 +203,10 @@
             .unwrap $ query-selector |.app
           :examples $ []
           :schema $ quote $ Fn (-> respo.dom/DomElement) (:features :js-ffi)
+        'on-control! $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn on-control! (control) (dispatch! control)
+          :examples $ []
+          :schema $ quote $ Fn reel.typed/Control (-> Unit)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -216,9 +221,10 @@
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render-with! (mount-target)
-              fn () $ comp-container @*reel
+              fn () $ comp-container @*reel on-control!
               fn (op)
-                dispatch! $ schema/require-op op
+                hint-fn $ Fn app.schema/Op $ -> Unit
+                dispatch! op
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
       :ns $ %{} 'NsEntry (:doc |)
@@ -228,7 +234,7 @@
             app.comp.container :refer $ comp-container
             app.updater :refer $ updater
             app.schema :as schema
-            reel.util :refer $ listen-devtools-toggle!
+            reel.util :refer $ listen-devtools!
             app.config :as config
             |./calcit.build-errors :default build-errors
             |bottom-tip :default hud!
@@ -247,11 +253,6 @@
           :code $ quote $ defstruct Color (:value String) (:comment String)
           :examples $ []
           :schema $ quote StructDef
-        'DispatchOp $ %{} 'CodeEntry
-          :doc "|UI boundary accepts application operations and anonymous Reel controls; dispatch! decodes both before updating state."
-          :code $ quote $ def DispatchOp (:: :unhandled)
-          :examples $ []
-          :schema $ quote AnyEnum
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
             :states (List respo.schema/CoordKey) Dynamic
@@ -284,32 +285,6 @@
             [] (Color :value |#2C85DD :comment "|选中文字颜色") (Color :value |#323232 :comment "|主要文字") (Color :value |#6F6F6F :comment "|次要提示性文字") (Color :value |#979797 :comment "|面包屑导航") (Color :value |#BDBDBD :comment "|输入框提示文字") (Color :value |#ffffff :comment "|左侧导航栏区域选中文字颜色")
           :examples $ []
           :schema $ quote $ List app.schema/Color
-        'require-op $ %{} 'CodeEntry (:doc |)
-          :code $ quote $ defn require-op (op)
-            match (typed/decode-control op)
-              (:some control) control
-              (:none)
-                match op
-                  (:states cursor state)
-                    Op :states
-                      decode-map-as cursor $ List respo.schema/CoordKey
-                      , state
-                  (:copy-visible cursor visible?)
-                    Op :copy-visible
-                      decode-map-as cursor $ List respo.schema/CoordKey
-                      decode-map-as visible? 'Bool
-                  (:content value)
-                    Op :content $ decode-map-as value 'String
-                  (:hydrate-storage value)
-                    let
-                        store $ decode-map-as value $ Map Dynamic Dynamic
-                      match (get store :states)
-                        (:some states)
-                          if (map? states) (Op :hydrate-storage store) (raise "|Expected saved states Map")
-                        (:none) (raise "|Expected saved states Map")
-                  _ $ raise "|Unknown application operation"
-          :examples $ []
-          :schema $ quote $ Fn AnyEnum (-> app.schema/ResolvedOp)
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             {}
@@ -319,7 +294,6 @@
           :schema $ quote $ Map Dynamic Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
-          :require $ reel.typed :as typed
     'app.snippet $ %{} 'FileEntry
       :defs $ {} $ 'main!
         %{} 'CodeEntry (:doc |)
