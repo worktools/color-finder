@@ -255,7 +255,7 @@
           :schema $ quote StructDef
         'Op $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defenum Op
-            :states (List respo.schema/CoordKey) Dynamic
+            :states (List respo.schema/CoordKey) (Map Tag Bool)
             :copy-visible (List respo.schema/CoordKey) Bool
             :content String
             :hydrate-storage $ Map Dynamic Dynamic
