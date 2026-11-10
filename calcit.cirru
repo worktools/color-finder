@@ -14,9 +14,7 @@
           :code $ quote $ defcomp comp-container (reel on-control)
             let
                 store $ :store reel
-                states $ decode-map-as
-                  .unwrap $ get store :states
-                  Map Dynamic Dynamic
+                states $ :states store
               div
                 {} $ :style ui/global
                 respo.core/keyed-> ({})
@@ -38,11 +36,10 @@
                               >> states $ str idx |+ idx2
                               , color
                 if dev?
-                  Option :some $ comp-typed-reel (>> states :reel) reel ({}) on-control
-                  Option :none
+                  Some $ comp-typed-reel (>> states :reel) reel ({}) on-control
+                  , None
           :examples $ []
-          :schema $ quote $ Fn
-            reel.typed/State app.schema/Op $ Map Dynamic Dynamic
+          :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store)
             Fn reel.typed/Control $ -> Unit
             -> respo.schema/Component
             :features :js-ffi
@@ -118,7 +115,7 @@
                   [] $ div
                     {} $ :style $ {} (:position |absolute) (:bottom |120%)
                       :background-color $ hsl 0 0 30
-                      :border $ str "|1px solid " $ hsl 0 0 70 (Option :some 0.5)
+                      :border $ str "|1px solid " $ hsl 0 0 70 (Some 0.5)
                       :color |white
                       :padding "|0 8px"
                       :font-size |12px
@@ -158,8 +155,7 @@
         '*reel $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defref *reel (typed/new-reel schema/store)
           :examples $ []
-          :schema $ quote $ Ref
-            reel.typed/State app.schema/Op $ Map Dynamic Dynamic
+          :schema $ quote $ Ref (typed/State schema/Op schema/Store)
         'dispatch! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn dispatch! (op)
             reset! *reel $ match op
@@ -169,7 +165,7 @@
                   :timestamp $ date-now-snapshot
             , &unit
           :examples $ []
-          :schema $ quote $ Fn app.schema/ResolvedOp (-> Unit)
+          :schema $ quote $ Fn schema/ResolvedOp (-> Unit)
         'main! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn main! ()
             match
@@ -178,12 +174,8 @@
                 match (try-parse-cirru-edn raw)
                   (:ok data)
                     if (map? data)
-                      match (get data :states)
-                        (:some states)
-                          if (map? states)
-                            dispatch! $ schema/Op :hydrate-storage $ decode-map-as data (Map Dynamic Dynamic)
-                            raise |Invalid-stored-states
-                        (:none) (raise |Missing-stored-states)
+                      dispatch! $ schema/Op :hydrate-storage $ schema/read-store
+                        decode-map-as data $ Map Dynamic Dynamic
                       raise |Invalid-stored-map
                   (:err _) (raise |Cannot-parse-color-finder-storage)
               (:none) &unit
@@ -194,7 +186,7 @@
               browser/storage-set!
                   get config/site :storage
                   , .unwrap
-                format-cirru-edn $ :store @*reel
+                format-cirru-edn $ schema/write-store $ :store @*reel
             println "|App started."
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
@@ -206,7 +198,7 @@
         'on-control! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn on-control! (control) (dispatch! control)
           :examples $ []
-          :schema $ quote $ Fn reel.typed/Control (-> Unit)
+          :schema $ quote $ Fn typed/Control (-> Unit)
         'reload! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn reload! ()
             if (nil? build-errors)
@@ -258,40 +250,86 @@
             :states (List respo.schema/CoordKey) (Map Tag Bool)
             :copy-visible (List respo.schema/CoordKey) Bool
             :content String
-            :hydrate-storage $ Map Dynamic Dynamic
+            :hydrate-storage app.schema/Store
           :examples $ []
           :schema $ quote EnumDef
         'ResolvedOp $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defunion ResolvedOp app.schema/Op reel.typed/Control
           :examples $ []
           :schema $ quote UnionDef
+        'Store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defstruct Store
+            :states $ Map Dynamic Dynamic
+            :content $ Option String
+            :extra $ Map Dynamic Dynamic
+          :examples $ []
+          :schema $ quote StructDef
         'background-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def background-colors
             [] (Color :value |#323232 :comment "|主视觉配色，默认按钮背景色，侧边菜单选中背景色") (Color :value |#20335D :comment "|导航栏Logo背景色") (Color :value |#323232 :comment "|左侧导航栏背景色") (Color :value |#0E1524 :comment "|导航栏选中分类区域背景色") (Color :value |#DAEDFF :comment "|概览页面图形填充色")
           :examples $ []
-          :schema $ quote $ List app.schema/Color
+          :schema $ quote $ List Color
         'border-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def border-colors
             [] (Color :value |#D9D9D9 :comment "|选择框边框颜色") (Color :value |#E8E8E8 :comment "|分割线")
           :examples $ []
-          :schema $ quote $ List app.schema/Color
+          :schema $ quote $ List Color
         'color-categories $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def color-categories
             [] (Category :category "|Background colors" :colors background-colors) (Category :category "|Border colors" :colors border-colors) (Category :category "|Font colors" :colors font-colors)
           :examples $ []
-          :schema $ quote $ List app.schema/Category
+          :schema $ quote $ List Category
         'font-colors $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def font-colors
             [] (Color :value |#2C85DD :comment "|选中文字颜色") (Color :value |#323232 :comment "|主要文字") (Color :value |#6F6F6F :comment "|次要提示性文字") (Color :value |#979797 :comment "|面包屑导航") (Color :value |#BDBDBD :comment "|输入框提示文字") (Color :value |#ffffff :comment "|左侧导航栏区域选中文字颜色")
           :examples $ []
-          :schema $ quote $ List app.schema/Color
+          :schema $ quote $ List Color
+        'read-store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn read-store (data)
+            match (get data :states)
+              (:some raw-states)
+                if (map? raw-states)
+                  let
+                      states $ decode-map-as raw-states $ Map Dynamic Dynamic
+                      extra $ dissoc data :states
+                    match (get extra :content)
+                      (:some raw-content)
+                        if (string? raw-content)
+                          Store :states states :content
+                            Some $ decode-map-as raw-content String
+                            , :extra $ dissoc extra :content
+                          Store :states states :content None :extra extra
+                      (:none) (Store :states states :content None :extra extra)
+                  raise |Invalid-stored-states
+              (:none) (raise |Missing-stored-states)
+          :examples $ []
+          :schema $ quote $ Fn (Map Dynamic Dynamic) (-> Store)
+          :tests $ [] $ %{} 'TestEntry (:name |legacy-map-roundtrip)
+            :code $ quote $ let
+                data $ {}
+                  :states $ {}
+                  |unknown 42
+                with-legacy-content $ assoc data :content 7
+                with-text $ assoc data :content |saved
+              assert= data $ write-store $ read-store data
+              assert= with-legacy-content $ write-store $ read-store with-legacy-content
+              assert= with-text $ write-store $ read-store with-text
+            :tags $ #{} :unit
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
-            {}
-              :states $ {}
-              :content |
+            Store :states ({}) :content (Some |) :extra $ {}
           :examples $ []
-          :schema $ quote $ Map Dynamic Dynamic
+          :schema $ quote Store
+        'write-store $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn write-store (store)
+            let
+                data $ assoc (:extra store) :states $ :states store
+              match (:content store)
+                (:some content) (assoc data :content content)
+                (:none) data
+          :examples $ []
+          :schema $ quote $ Fn Store
+            -> $ Map Dynamic Dynamic
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.schema
     'app.snippet $ %{} 'FileEntry
@@ -316,71 +354,49 @@
             match op
               (:states cursor state)
                 assoc store :states $ decode-map-as
-                  update-state-tree
-                    decode-map-as
-                      .unwrap $ get store :states
-                      Map Dynamic Dynamic
-                    , cursor state
+                  update-state-tree (:states store) cursor state
                   Map Dynamic Dynamic
               (:copy-visible cursor visible?)
                 recur store
                   app.schema/Op :states cursor $ {} $ :visible? visible?
                   , op-id op-time
-              (:content value) (assoc store :content value)
+              (:content value)
+                -> store
+                  assoc :content $ Some value
+                  assoc :extra $ dissoc (:extra store) :content
               (:hydrate-storage value) value
-              _ $ do (println "|Unknown op:" op) store
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic) app.schema/Op String Number
-            -> $ Map Dynamic Dynamic
+          :schema $ quote $ Fn app.schema/Store Op String Number (-> app.schema/Store)
           :tests $ []
             %{} 'TestEntry (:name |content-operation)
-              :code $ quote $ assert=
-                {}
-                  :states $ {}
-                  :content |hello
-                updater
-                  {}
-                    :states $ {}
-                    :content |
-                  Op :content |hello
-                  , |id 0
+              :code $ quote $ assert= (Some |hello)
+                :content $ updater app.schema/store (Op :content |hello) |id 0
               :tags $ #{} :unit
             %{} 'TestEntry (:name |hydrate-operation)
-              :code $ quote $ assert=
-                {}
-                  :states $ {}
-                  :content |saved
-                updater
-                  {}
-                    :states $ {}
-                    :content |
-                  Op :hydrate-storage $ {}
+              :code $ quote $ let
+                  saved $ app.schema/read-store $ {}
                     :states $ {}
                     :content |saved
-                  , |id 0
+                assert= saved $ updater app.schema/store (Op :hydrate-storage saved) |id 0
               :tags $ #{} :unit
             %{} 'TestEntry (:name |states-operation)
               :code $ quote $ assert= (Result :ok true)
                 get-in
-                  updater
-                    {}
-                      :states $ {}
-                      :content |
+                  :states $ updater app.schema/store
                     Op :states ([] :copied)
                       {} $ :visible? true
                     , |id 0
-                  [] :states :copied :data :visible?
+                  [] :copied :data :visible?
               :tags $ #{} :unit
             %{} 'TestEntry (:name |typed-copy-visibility)
               :code $ quote $ let
                   cursor $ [] |0+0
                   shown $ updater app.schema/store (app.schema/Op :copy-visible cursor true) |id 0
+                  hidden $ updater shown (app.schema/Op :copy-visible cursor false) |id 0
                 assert= (Result :ok true)
-                  get-in shown $ [] :states |0+0 :data :visible?
+                  get-in (:states shown) ([] |0+0 :data :visible?)
                 assert= (Result :ok false)
-                  get-in
-                    updater shown (app.schema/Op :copy-visible cursor false) |id 0
-                    [] :states |0+0 :data :visible?
+                  get-in (:states hidden) ([] |0+0 :data :visible?)
               :tags $ #{} :unit
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
