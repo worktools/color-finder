@@ -303,7 +303,7 @@
                   raise |Invalid-stored-states
               (:none) (raise |Missing-stored-states)
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic Dynamic) (-> Store)
+          :schema $ quote $ Fn (Map Dynamic V) (-> Store) (:generics V)
           :tests $ [] $ %{} 'TestEntry (:name |legacy-map-roundtrip)
             :code $ quote $ let
                 data $ {}
