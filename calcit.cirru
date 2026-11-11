@@ -78,12 +78,12 @@
           :code $ quote $ defcomp comp-copied (states value child)
             let
                 cursor $ decode-map-as
-                  match (get states :cursor)
+                  match (&map:get states :cursor)
                     (:some raw)
                       if (nil? raw) ([]) raw
                     (:none) ([])
                   List respo.schema/CoordKey
-                visible? $ match (get states :data)
+                visible? $ match (&map:get states :data)
                   (:some data)
                     if (non-nil? data)
                       match
@@ -215,7 +215,7 @@
             render-with! (mount-target)
               fn () $ comp-container @*reel on-control!
               fn (op)
-                hint-fn $ Fn app.schema/Op $ -> Unit
+                hint-fn $ Fn schema/Op $ -> Unit
                 dispatch! op
           :examples $ []
           :schema $ quote $ Fn (-> Unit) (:features :js-ffi)
