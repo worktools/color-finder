@@ -286,24 +286,26 @@
           :schema $ quote $ List Color
         'read-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn read-store (data)
-            match (get data :states)
+            match (&map:get data :states)
               (:some raw-states)
                 if (map? raw-states)
                   let
                       states $ decode-map-as raw-states $ Map Dynamic Dynamic
-                      extra $ dissoc data :states
-                    match (get extra :content)
+                      extra $ &map:dissoc
+                        decode-map-as data $ Map Dynamic Dynamic
+                        , :states
+                    match (&map:get extra :content)
                       (:some raw-content)
                         if (string? raw-content)
                           Store :states states :content
                             Some $ decode-map-as raw-content String
-                            , :extra $ dissoc extra :content
+                            , :extra $ &map:dissoc extra :content
                           Store :states states :content None :extra extra
                       (:none) (Store :states states :content None :extra extra)
                   raise |Invalid-stored-states
               (:none) (raise |Missing-stored-states)
           :examples $ []
-          :schema $ quote $ Fn (Map Dynamic V) (-> Store) (:generics V)
+          :schema $ quote $ Fn (Map K V) (-> Store) (:generics K V)
           :tests $ [] $ %{} 'TestEntry (:name |legacy-map-roundtrip)
             :code $ quote $ let
                 data $ {}
