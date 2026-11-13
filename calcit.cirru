@@ -86,13 +86,14 @@
                 visible? $ match (&map:get states :data)
                   (:some data)
                     if (non-nil? data)
-                      match
-                        get
-                          decode-map-as data $ Map Tag Dynamic
-                          , :visible?
-                        (:some value)
-                          if (bool? value) value false
-                        (:none) false
+                      if (map? data)
+                        match (&map:get data :visible?)
+                          (:some raw)
+                            match (try-decode-map-as raw Bool)
+                              (:ok visible) visible
+                              (:err _) false
+                          (:none) false
+                        raise |Invalid-copy-indicator-state
                       , false
                   (:none) false
               div
