@@ -175,8 +175,7 @@
                 match (try-parse-cirru-edn raw)
                   (:ok data)
                     if (map? data)
-                      dispatch! $ schema/Op :hydrate-storage $ schema/read-store
-                        decode-map-as data $ Map Dynamic Dynamic
+                      dispatch! $ schema/Op :hydrate-storage $ schema/read-store data
                       raise |Invalid-stored-map
                   (:err _) (raise |Cannot-parse-color-finder-storage)
               (:none) &unit
