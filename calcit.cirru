@@ -260,7 +260,7 @@
           :schema $ quote UnionDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ Map Dynamic Dynamic
+            :states $ Map respo.schema/CoordKey Dynamic
             :content $ Option String
             :extra $ Map Dynamic Dynamic
           :examples $ []
@@ -291,7 +291,7 @@
               (:some raw-states)
                 if (map? raw-states)
                   let
-                      states $ decode-map-as raw-states $ Map Dynamic Dynamic
+                      states $ decode-map-as raw-states $ Map respo.schema/CoordKey Dynamic
                       extra $ &map:dissoc
                         decode-map-as data $ Map Dynamic Dynamic
                         , :states
@@ -358,7 +358,7 @@
               (:states cursor state)
                 assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor state
-                  Map Dynamic Dynamic
+                  Map respo.schema/CoordKey Dynamic
               (:copy-visible cursor visible?)
                 recur store
                   app.schema/Op :states cursor $ {} $ :visible? visible?
