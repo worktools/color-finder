@@ -311,7 +311,10 @@
             :code $ quote $ let
                 data $ {}
                   :states $ {}
+                    :cursor $ [] |panel 2
+                    |panel $ {} $ 2 ({})
                   |unknown 42
+                  true |extension
                 with-legacy-content $ assoc data :content 7
                 with-text $ assoc data :content |saved
               assert= data $ write-store $ read-store data
