@@ -86,13 +86,14 @@
                 visible? $ match (&map:get states :data)
                   (:some data)
                     if (non-nil? data)
-                      match
-                        get
-                          decode-map-as data $ Map Tag Dynamic
-                          , :visible?
-                        (:some value)
-                          if (bool? value) value false
-                        (:none) false
+                      if (map? data)
+                        match (&map:get data :visible?)
+                          (:some raw)
+                            match (try-decode-map-as raw Bool)
+                              (:ok visible) visible
+                              (:err _) false
+                          (:none) false
+                        raise |Invalid-copy-indicator-state
                       , false
                   (:none) false
               div
@@ -174,8 +175,7 @@
                 match (try-parse-cirru-edn raw)
                   (:ok data)
                     if (map? data)
-                      dispatch! $ schema/Op :hydrate-storage $ schema/read-store
-                        decode-map-as data $ Map Dynamic Dynamic
+                      dispatch! $ schema/Op :hydrate-storage $ schema/read-store data
                       raise |Invalid-stored-map
                   (:err _) (raise |Cannot-parse-color-finder-storage)
               (:none) &unit
@@ -259,7 +259,7 @@
           :schema $ quote UnionDef
         'Store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defstruct Store
-            :states $ Map Dynamic Dynamic
+            :states $ Map respo.schema/CoordKey Dynamic
             :content $ Option String
             :extra $ Map Dynamic Dynamic
           :examples $ []
@@ -290,7 +290,7 @@
               (:some raw-states)
                 if (map? raw-states)
                   let
-                      states $ decode-map-as raw-states $ Map Dynamic Dynamic
+                      states $ decode-map-as raw-states $ Map respo.schema/CoordKey Dynamic
                       extra $ &map:dissoc
                         decode-map-as data $ Map Dynamic Dynamic
                         , :states
@@ -310,7 +310,10 @@
             :code $ quote $ let
                 data $ {}
                   :states $ {}
+                    :cursor $ [] |panel 2
+                    |panel $ {} $ 2 ({})
                   |unknown 42
+                  true |extension
                 with-legacy-content $ assoc data :content 7
                 with-text $ assoc data :content |saved
               assert= data $ write-store $ read-store data
@@ -357,7 +360,7 @@
               (:states cursor state)
                 assoc store :states $ decode-map-as
                   update-state-tree (:states store) cursor state
-                  Map Dynamic Dynamic
+                  Map respo.schema/CoordKey Dynamic
               (:copy-visible cursor visible?)
                 recur store
                   app.schema/Op :states cursor $ {} $ :visible? visible?
