@@ -40,9 +40,9 @@
                   , None
           :examples $ []
           :schema $ quote $ Fn (reel.typed/State app.schema/Op app.schema/Store)
-            Fn reel.typed/Control $ -> Unit
+            Fn reel.typed/Control (-> Unit) (:features :state)
             -> respo.schema/Component
-            :features :js-ffi
+            :features :js-ffi :state
         'comp-pigment $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defcomp comp-pigment (states color)
             div
@@ -209,7 +209,7 @@
               hud! |error build-errors
             , &unit
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
         'render-app! $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn render-app! ()
             render-with! (mount-target)
@@ -218,7 +218,7 @@
                 hint-fn $ Fn schema/Op $ -> Unit
                 dispatch! op
           :examples $ []
-          :schema $ quote $ Fn (-> Unit) (:features :js-ffi :state)
+          :schema $ quote $ Fn (-> Unit) (:features :io :js-ffi :state)
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.main
           :require
@@ -286,24 +286,24 @@
           :schema $ quote $ List Color
         'read-store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ defn read-store (data)
-            match (&map:get data :states)
-              (:some raw-states)
-                if (map? raw-states)
-                  let
-                      states $ decode-map-as raw-states $ Map respo.schema/CoordKey Dynamic
-                      extra $ &map:dissoc
-                        decode-map-as data $ Map Dynamic Dynamic
-                        , :states
-                    match (&map:get extra :content)
-                      (:some raw-content)
-                        if (string? raw-content)
-                          Store :states states :content
-                            Some $ decode-map-as raw-content String
-                            , :extra $ &map:dissoc extra :content
-                          Store :states states :content None :extra extra
-                      (:none) (Store :states states :content None :extra extra)
-                  raise |Invalid-stored-states
-              (:none) (raise |Missing-stored-states)
+            let
+                data-map $ decode-map-as data $ Map Dynamic Dynamic
+              match (&map:get data-map :states)
+                (:some raw-states)
+                  if (map? raw-states)
+                    let
+                        states $ decode-map-as raw-states $ Map respo.schema/CoordKey Dynamic
+                        extra $ &map:dissoc data-map :states
+                      match (&map:get extra :content)
+                        (:some raw-content)
+                          if (string? raw-content)
+                            Store :states states :content
+                              Some $ decode-map-as raw-content String
+                              , :extra $ &map:dissoc extra :content
+                            Store :states states :content None :extra extra
+                        (:none) (Store :states states :content None :extra extra)
+                    raise |Invalid-stored-states
+                (:none) (raise |Missing-stored-states)
           :examples $ []
           :schema $ quote $ Fn (Map K V) (-> Store) (:generics K V)
           :tests $ [] $ %{} 'TestEntry (:name |legacy-map-roundtrip)
