@@ -358,9 +358,7 @@
           :code $ quote $ defn updater (store op op-id op-time)
             match op
               (:states cursor state)
-                assoc store :states $ decode-map-as
-                  update-state-tree (:states store) cursor state
-                  Map respo.schema/CoordKey Dynamic
+                assoc store :states $ update-state-map (:states store) cursor state
               (:copy-visible cursor visible?)
                 recur store
                   app.schema/Op :states cursor $ {} $ :visible? visible?
@@ -403,10 +401,28 @@
                 assert= (Result :ok false)
                   get-in (:states hidden) ([] |0+0 :data :visible?)
               :tags $ #{} :unit
+            %{} 'TestEntry (:name |state-map-compat)
+              :code $ quote $ let
+                  empty-states $ :states app.schema/store
+                  data $ {} $ :visible? true
+                  existing $ assoc empty-states :outer $ {} (:other 3)
+                assert=
+                  respo.cursor/update-state-tree empty-states ([]) data
+                  respo.cursor/update-state-map empty-states ([]) data
+                assert=
+                  respo.cursor/update-state-tree empty-states ([] :outer) data
+                  respo.cursor/update-state-map empty-states ([] :outer) data
+                assert=
+                  respo.cursor/update-state-tree empty-states ([] :outer 1) data
+                  respo.cursor/update-state-map empty-states ([] :outer 1) data
+                assert=
+                  respo.cursor/update-state-tree existing ([] :outer :nested) data
+                  respo.cursor/update-state-map existing ([] :outer :nested) data
+              :tags $ #{} :unit
       :ns $ %{} 'NsEntry (:doc |)
         :code $ quote $ ns app.updater
           :require
-            respo.cursor :refer $ update-state-tree
+            respo.cursor :refer $ update-state-map
             app.schema :refer $ Op
     'app.util $ %{} 'FileEntry
       :defs $ {} $ 'get-env!
