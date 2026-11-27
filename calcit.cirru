@@ -274,6 +274,30 @@
             [] (Color :value |#D9D9D9 :comment "|选择框边框颜色") (Color :value |#E8E8E8 :comment "|分割线")
           :examples $ []
           :schema $ quote $ List Color
+        'clear-copy-hints $ %{} 'CodeEntry (:doc |)
+          :code $ quote $ defn clear-copy-hints (states)
+            reduce
+              range 0 (.len color-categories) 1
+              , states $ fn (outer idx)
+                let
+                    category $ .unwrap $ nth color-categories idx
+                  reduce
+                    range 0
+                      .len $ :colors category
+                      , 1
+                    , outer $ fn (current color-idx)
+                      let
+                          path $ [] (str idx |+ color-idx) :data :visible?
+                        match (get-in current path)
+                          (:ok value)
+                            if
+                              and (bool? value) (= value true)
+                              decode-map-as (assoc-in current path false) (Map respo.schema/CoordKey Dynamic)
+                              , current
+                          (:err _) current
+          :examples $ []
+          :schema $ quote $ Fn (Map respo.schema/CoordKey Dynamic)
+            -> $ Map respo.schema/CoordKey Dynamic
         'color-categories $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def color-categories
             [] (Category :category "|Background colors" :colors background-colors) (Category :category "|Border colors" :colors border-colors) (Category :category "|Font colors" :colors font-colors)
@@ -292,7 +316,7 @@
                 (:some raw-states)
                   if (map? raw-states)
                     let
-                        states $ decode-map-as raw-states $ Map respo.schema/CoordKey Dynamic
+                        states $ clear-copy-hints $ decode-map-as raw-states (Map respo.schema/CoordKey Dynamic)
                         extra $ &map:dissoc data-map :states
                       match (&map:get extra :content)
                         (:some raw-content)
@@ -306,20 +330,35 @@
                 (:none) (raise |Missing-stored-states)
           :examples $ []
           :schema $ quote $ Fn (Map K V) (-> Store) (:generics K V)
-          :tests $ [] $ %{} 'TestEntry (:name |legacy-map-roundtrip)
-            :code $ quote $ let
-                data $ {}
-                  :states $ {}
-                    :cursor $ [] |panel 2
-                    |panel $ {} $ 2 ({})
-                  |unknown 42
-                  true |extension
-                with-legacy-content $ assoc data :content 7
-                with-text $ assoc data :content |saved
-              assert= data $ write-store $ read-store data
-              assert= with-legacy-content $ write-store $ read-store with-legacy-content
-              assert= with-text $ write-store $ read-store with-text
-            :tags $ #{} :unit
+          :tests $ []
+            %{} 'TestEntry (:name |legacy-map-roundtrip)
+              :code $ quote $ let
+                  data $ {}
+                    :states $ {}
+                      :cursor $ [] |panel 2
+                      |panel $ {} $ 2 ({})
+                    |unknown 42
+                    true |extension
+                  with-legacy-content $ assoc data :content 7
+                  with-text $ assoc data :content |saved
+                assert= data $ write-store $ read-store data
+                assert= with-legacy-content $ write-store $ read-store with-legacy-content
+                assert= with-text $ write-store $ read-store with-text
+              :tags $ #{} :unit
+            %{} 'TestEntry (:name |clears-only-known-copy-hints)
+              :code $ quote $ let
+                  saved $ {}
+                    :states $ {}
+                      |0+0 $ {} $ :data
+                        {} (:visible? true) (:other |kept)
+                      |0+1 $ {} $ :data
+                        {} $ :visible? false
+                      |unknown $ {} $ :data
+                        {} $ :visible? true
+                    :extension |kept
+                  expected $ assoc-in saved ([] :states |0+0 :data :visible?) false
+                assert= expected $ write-store $ read-store saved
+              :tags $ #{} :unit
         'store $ %{} 'CodeEntry (:doc |)
           :code $ quote $ def store
             Store :states ({}) :content (Some |) :extra $ {}
