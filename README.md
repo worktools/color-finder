@@ -8,9 +8,9 @@ Site http://chenyong.tiye.me/color-finder/
 
 ### 使用者影响
 
-升级到 Calcit 和 `@calcit/procs` **0.46.0** 后，请重新安装依赖、编译并刷新。13 个色块、复制文本、两秒 Copied 提示、原 Map 存档和页面 HUD 继续适用。
+升级到 Calcit 和 `@calcit/procs` **0.47.1** 后，请重新安装依赖、编译并刷新。13 个色块、复制文本、两秒 Copied 提示、原 Map 存档和页面 HUD 继续适用。
 
-复制回调使用 `RespoEvent`，复制状态操作使用 `CoordKey` 路径与布尔状态值，应用和 Reel 回放使用具名 `Store`，文本字段为 `Option String`。存档仍写出原 Map，未知字段和旧的非字符串内容可原样往返。页面派发具名 `Op`，调试控件单独派发 `reel.typed/Control`，内部用 union 汇合。分类和色块列表使用 Respo 的具名 `ChildPair`。正式依赖为 Respo **0.20.0**、Reel **0.11.10**、UI **0.16.6**、JS-FFI **0.2.26**，传递 Router **0.12.18**。
+复制回调使用 `RespoEvent`，复制状态操作使用 `CoordKey` 路径与布尔状态值，应用和 Reel 回放使用具名 `Store`，文本字段为 `Option String`。存档仍写出原 Map，未知字段和旧的非字符串内容可原样往返。页面派发具名 `Op`，调试控件单独派发 `reel.typed/Control`，内部用 union 汇合。分类和色块列表使用 Respo 的具名 `ChildPair`。正式依赖为 Respo **0.20.1**、Reel **0.11.11**、UI **0.16.7**、JS-FFI **0.2.26**，传递 Router **0.12.19**。
 
 ### 此前 0.31.0 使用者影响
 
@@ -39,7 +39,7 @@ Respo 0.16.126、js-ffi 0.2.6，传递 Router 0.8.38；Vite固定8.3.3。请重�
 
 ### Development
 
-Requires paired Calcit / @calcit/procs 0.46.0, Caps 0.1.2, Node.js 24, and Yarn 4.18.0.
+Requires paired Calcit / @calcit/procs 0.47.1, Caps 0.1.2, Node.js 24, and Yarn 4.18.0.
 
 Use only `calcit.cirru` and `deps.cirru`. The retired `compact.cirru` and
 `package.cirru` snapshots must not be restored; CI checks their absence.
